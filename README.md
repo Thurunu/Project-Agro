@@ -2,6 +2,7 @@
 
 Second year group project 
 Second year software gruop project
+Second year awesome software group project 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
