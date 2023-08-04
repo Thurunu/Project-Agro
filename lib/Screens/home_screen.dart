@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'login_screen.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
@@ -10,14 +12,16 @@ class HomeScreen extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
+            const Center(
                 child: Text('HomeScreen'),
             ),
             Text(user.email!),
             IconButton(onPressed: (){
               FirebaseAuth.instance.signOut();
-            }, icon: Icon(Icons.logout_outlined))
+              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+            }, icon: const Icon(Icons.logout_outlined))
           ],
         ),
       ),
