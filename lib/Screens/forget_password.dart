@@ -6,31 +6,42 @@ import 'package:project_algora_2/custom/my_text.dart';
 import 'package:project_algora_2/custom/my_text_field.dart';
 
 class ForgetPassword extends StatefulWidget {
+  const ForgetPassword({super.key});
+
+  @override
   _ForgetPasswordState createState() => _ForgetPasswordState();
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   final resetMailController = TextEditingController();
 
+  @override
   void dispose() {
     resetMailController.dispose();
     super.dispose();
   }
-  void validateEmail(){
+//validate email
+  void validateEmail() {
     String email = resetMailController.text;
-    if(email.isEmpty){
-      setState((){
-ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please enter your email address."),),
+    if (email.isEmpty) {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Please enter your email address."),
+          ),
         );
       });
-    }else if(!EmailValidator.validate(email,true) || !email.contains('@') || !email.contains('.') ){
-      setState((){
+    } else if (!EmailValidator.validate(email, true) ||
+        !email.contains('@') ||
+        !email.contains('.')) {
+      setState(() {
         ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please enter a valid email address."),));
+          const SnackBar(
+            content: Text("Please enter a valid email address."),
+          ),
+        );
       });
-
-    }else{
+    } else {
       passwordRest();
     }
   }
@@ -41,21 +52,23 @@ ScaffoldMessenger.of(context).showSnackBar(
           .sendPasswordResetEmail(email: resetMailController.text);
 //Display message to user
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Password reset link sent to your email."),),
+        const SnackBar(
+          content: Text("Password reset link sent to your email."),
+        ),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text("Error"),
-            content: Text("No user found for the provided email."),
+            title: const Text("Error"),
+            content: const Text("No user found for the provided email."),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("OK"),
+                child: const Text("OK"),
               ),
             ],
           ),
@@ -73,8 +86,8 @@ ScaffoldMessenger.of(context).showSnackBar(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Forget Password Text
-              MyText("Forget Password", 30),
-              Padding(
+              const MyText("Forget Password", 30),
+              const Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: MyText(
                     "Enter your email address to get password rest link. ", 18),
@@ -82,14 +95,13 @@ ScaffoldMessenger.of(context).showSnackBar(
 
               //Email Text Box
               MyTextField(
-                  controller: resetMailController,
-                  hintText: 'example@gmail.com',
-                  labelText: 'Your Email',
-                  obscureText: false,
+                controller: resetMailController,
+                hintText: 'example@gmail.com',
+                labelText: 'Your Email',
+                obscureText: false,
               ),
               //Submit Text Button
               MyButton(validateEmail, 'Rest Password'),
-
             ],
           ),
         ),
