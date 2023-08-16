@@ -50,6 +50,7 @@ class _ChoiceState extends State<Choice> {
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text("Error occurred while creating the database");
+
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 // Show a loading indicator while waiting for the user ID
                 return CircularProgressIndicator();

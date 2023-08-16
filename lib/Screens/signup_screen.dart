@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -22,58 +23,85 @@ class _SignupScreenState extends State<SignupScreen> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   bool showPassword = false;
+  void showSnackBarMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  void validateEmail() {
+    String email = emailController.text;
+    if (email.isEmpty) {
+      showSnackBarMessage("Please enter your email address.");
+    } else if (!EmailValidator.validate(email, true) ||
+        !email.contains('@') ||
+        !email.contains('.')) {
+      showSnackBarMessage("Please enter a valid email address.");
+    } else {
+      signUserIn();
+    }
+  }
+
 
   // Function to handle the user sign-up process
   void signUserIn() async {
-    // Show a loading circle while the sign-up process is ongoing
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Center(
-          child: Lottie.asset(
-            'assets/animations/loading.json',
-            width: 200,
-            height: 200,
-            fit: BoxFit.fill,
-          ),
-        );
-      },
-    ).timeout(const Duration(seconds: 1), onTimeout: () => "timeout");
+
+
     try {
       // Check if the passwords match before creating the user account
       if (passwordController.text == confirmPasswordController.text) {
+        // Show a loading circle while the sign-up process is ongoing
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+              child: Lottie.asset(
+                'assets/animations/loading.json',
+                width: 200,
+                height: 200,
+                fit: BoxFit.fill,
+              ),
+            );
+          },
+        ).timeout(const Duration(seconds: 1), onTimeout: () => "timeout");
         // Create the user with email and password using FirebaseAuth
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
-      } else {
-        print("Password doesn't match");
-        Navigator.pop(context);
-      }
-    } on FirebaseAuthException catch (e) {
-      // If there's an error during sign-up, show an error message
-      Navigator.pop(context);
-      showErrorMessage(e.code);
-    }
-    Navigator.push(
-      this.context,
-      MaterialPageRoute(builder: (context) => Choice()),
-    );
-  }
 
-  // Function to show an error message in an AlertDialog
-  void showErrorMessage(String message) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Center(
-              child: Text('password mismatch'),
+
+        // Navigate to the Choice screen
+        Navigator.push(
+          this.context,
+          MaterialPageRoute(builder: (context) => Choice()),
+        );
+      } else if(passwordController.text != confirmPasswordController.text) {
+        setState(() {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Password Mismatch."),
             ),
           );
         });
+
+      }
+    } on FirebaseAuthException catch (e) {
+      // If there's an error during sign-up, show an error message
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+              child: Text(e.code),
+            ),
+          );
+        },
+      );
+    }
+
   }
+
 
   //Function to handle Google sign in process
   Future<void> _handleGoogleSignIn(BuildContext context) async {
@@ -101,8 +129,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         body: SingleChildScrollView(
           child: SafeArea(
             child: Container(
@@ -128,24 +155,31 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 30),
                       child: MyTextField(
-                          emailController, 'example@gmail.com', 'Email', false),
+                          controller:emailController,
+                          hintText: 'example@gmail.com',
+                          labelText: 'Email',
+                          obscureText: false,
+                      ),
                     ),
 
                     //New Password Text Box Section
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
-                      child: MyTextField(passwordController, 'new password',
-                          'New Password', !showPassword),
+                      child: MyTextField(
+                          controller: passwordController,
+                          hintText: 'new password',
+                          labelText: 'New Password',
+                          obscureText: !showPassword),
                     ),
 
                     //Confirm Password TextBox Section
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: MyTextField(
-                          confirmPasswordController,
-                          'confirm new password',
-                          'Confirm Password',
-                           !showPassword,
+                          controller:confirmPasswordController,
+                          hintText:'confirm new password',
+                          labelText:'Confirm Password',
+                           obscureText:!showPassword,
                       ),
                     ),
 
@@ -168,8 +202,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(
                       height: 65,
                       width: 360,
-                      child: MyButton(signUserIn, 'Sign up'),
+                      child: MyButton(validateEmail, 'Sign up'),
                     ),
+                    //Divider
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 30),
                       child: Row(
@@ -193,6 +228,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ],
                       ),
                     ),
+                    //Google Sign up button
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -210,6 +246,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               side: BorderSide(
                                   color: Colors.black), // Setborder color
                             ),
+
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -241,6 +278,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ],
                     ),
+                    //Already have an account? Login
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 50),
                       child: Row(
@@ -273,7 +311,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         ),
-      ),
+
     );
   }
 }

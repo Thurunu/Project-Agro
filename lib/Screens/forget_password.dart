@@ -1,41 +1,59 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/custom/my_button.dart';
 import 'package:project_algora_2/custom/my_text.dart';
 import 'package:project_algora_2/custom/my_text_field.dart';
 
 class ForgetPassword extends StatefulWidget {
+  const ForgetPassword({super.key});
+
+  @override
   _ForgetPasswordState createState() => _ForgetPasswordState();
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   final resetMailController = TextEditingController();
 
+  @override
   void dispose() {
     resetMailController.dispose();
     super.dispose();
+  }
+//validate email
+  void validateEmail() {
+    String email = resetMailController.text;
+    if (email.isEmpty) {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Please enter your email address."),
+          ),
+        );
+      });
+    } else if (!EmailValidator.validate(email, true) ||
+        !email.contains('@') ||
+        !email.contains('.')) {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Please enter a valid email address."),
+          ),
+        );
+      });
+    } else {
+      passwordRest();
+    }
   }
 
   Future passwordRest() async {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: resetMailController.text);
-
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Password Reset Email Sent"),
-          content: Text(
-              "Check your email for instructions on resetting your password."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
+//Display message to user
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password reset link sent to your email."),
         ),
       );
     } on FirebaseAuthException catch (e) {
@@ -43,14 +61,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text("Error"),
-            content: Text("No user found for the provided email."),
+            title: const Text("Error"),
+            content: const Text("No user found for the provided email."),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text("OK"),
+                child: const Text("OK"),
               ),
             ],
           ),
@@ -68,19 +86,22 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Forget Password Text
-              MyText("Forget Password", 30),
-              Padding(
+              const MyText("Forget Password", 30),
+              const Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: MyText(
                     "Enter your email address to get password rest link. ", 18),
               ),
 
               //Email Text Box
-              MyTextField(resetMailController, 'example@gmail.com',
-                  'Your Email', false),
+              MyTextField(
+                controller: resetMailController,
+                hintText: 'example@gmail.com',
+                labelText: 'Your Email',
+                obscureText: false,
+              ),
               //Submit Text Button
-              MyButton(passwordRest, 'Rest Password'),
-
+              MyButton(validateEmail, 'Rest Password'),
             ],
           ),
         ),
