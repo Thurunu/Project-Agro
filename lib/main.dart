@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:project_algora_2/Back/auth_page.dart';
-import 'package:project_algora_2/Screens/forget_password.dart';
 import 'package:project_algora_2/firebase_options.dart';
 import 'package:device_preview/device_preview.dart';
 

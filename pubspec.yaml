@@ -43,6 +43,7 @@ dependencies:
   flutter_facebook_auth: ^5.0.11
   cloud_firestore: ^4.8.4
   lottie: ^2.5.0
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

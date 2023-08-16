@@ -113,8 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
+    return SafeArea(
         child: Scaffold(
           body: SingleChildScrollView(
             child: Container(
@@ -134,16 +133,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                     child: MyTextField(
-                      emailController,
-                      'example@gmail.com',
-                      'Email',
-                      false,
+                      controller:emailController,
+                      hintText:'example@gmail.com',
+                      labelText:'Email',
+                      obscureText:false,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyTextField(
-                        passwordController, 'password', 'Password', true),
+                        controller:passwordController,
+                        hintText:'password',
+                        labelText:'Password',
+                        obscureText:true),
                   ),
                   Padding(
                     padding:  EdgeInsets.symmetric(horizontal: 20),
@@ -158,7 +160,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  MyButton(loginUserIn, 'Sign In'),
+                  MyButton(
+                      loginUserIn,
+                      'Sign In'
+                  ),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                     child: Row(
@@ -187,17 +192,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: OutlinedButton(
+                        child: ElevatedButton(
                           onPressed: () => _handleGoogleSignIn(context),
-                          style: OutlinedButton.styleFrom(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white, // Background color
+                            onPrimary: Colors.black, // Text color
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  10.0), // Adjust the border radius as needed
+                              borderRadius: BorderRadius.circular(10.0), // Button border radius
                             ),
-                            primary: Colors
-                                .white, // Set the desired button background color
-                            side: const BorderSide(
-                                color: Colors.black), // Set the border color
+                            elevation: 5, // Shadow elevation
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -210,9 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   height: 50,
                                 ),
                               ),
-                              const SizedBox(
-                                  width:
-                                      10), // Add spacing between the image and text
+                              const SizedBox(width: 10), // Add spacing between the image and text
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
                                 child: Text(
@@ -220,7 +221,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
                                   ),
                                 ),
                               ),
@@ -230,6 +230,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 50),
                     child: Row(
@@ -261,7 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      ),
+
     );
   }
 }

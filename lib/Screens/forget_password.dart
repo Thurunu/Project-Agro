@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/custom/my_button.dart';
 import 'package:project_algora_2/custom/my_text.dart';
@@ -16,27 +16,32 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     resetMailController.dispose();
     super.dispose();
   }
+  void validateEmail(){
+    String email = resetMailController.text;
+    if(email.isEmpty){
+      setState((){
+ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please enter your email address."),),
+        );
+      });
+    }else if(!EmailValidator.validate(email,true) || !email.contains('@') || !email.contains('.') ){
+      setState((){
+        ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please enter a valid email address."),));
+      });
+
+    }else{
+      passwordRest();
+    }
+  }
 
   Future passwordRest() async {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: resetMailController.text);
-
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text("Password Reset Email Sent"),
-          content: Text(
-              "Check your email for instructions on resetting your password."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
-        ),
+//Display message to user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Password reset link sent to your email."),),
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -76,10 +81,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
 
               //Email Text Box
-              MyTextField(resetMailController, 'example@gmail.com',
-                  'Your Email', false),
+              MyTextField(
+                  controller: resetMailController,
+                  hintText: 'example@gmail.com',
+                  labelText: 'Your Email',
+                  obscureText: false,
+              ),
               //Submit Text Button
-              MyButton(passwordRest, 'Rest Password'),
+              MyButton(validateEmail, 'Rest Password'),
 
             ],
           ),

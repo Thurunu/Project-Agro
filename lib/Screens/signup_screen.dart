@@ -101,8 +101,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         body: SingleChildScrollView(
           child: SafeArea(
             child: Container(
@@ -128,24 +127,31 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 30),
                       child: MyTextField(
-                          emailController, 'example@gmail.com', 'Email', false),
+                          controller:emailController,
+                          hintText: 'example@gmail.com',
+                          labelText: 'Email',
+                          obscureText: false,
+                      ),
                     ),
 
                     //New Password Text Box Section
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
-                      child: MyTextField(passwordController, 'new password',
-                          'New Password', !showPassword),
+                      child: MyTextField(
+                          controller: passwordController,
+                          hintText: 'new password',
+                          labelText: 'New Password',
+                          obscureText: !showPassword),
                     ),
 
                     //Confirm Password TextBox Section
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: MyTextField(
-                          confirmPasswordController,
-                          'confirm new password',
-                          'Confirm Password',
-                           !showPassword,
+                          controller:confirmPasswordController,
+                          hintText:'confirm new password',
+                          labelText:'Confirm Password',
+                           obscureText:!showPassword,
                       ),
                     ),
 
@@ -273,7 +279,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         ),
-      ),
+
     );
   }
 }
