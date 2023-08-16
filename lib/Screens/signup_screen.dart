@@ -7,7 +7,6 @@ import 'package:project_algora_2/custom/my_text_field.dart';
 import '../Back/auth_service.dart';
 import 'choice.dart';
 
-
 class SignupScreen extends StatefulWidget {
   final Function()? onTap;
   const SignupScreen(this.onTap, {super.key});
@@ -22,7 +21,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  bool? isChecked = true;
+  bool showPassword = false;
 
   // Function to handle the user sign-up process
   void signUserIn() async {
@@ -30,10 +29,11 @@ class _SignupScreenState extends State<SignupScreen> {
     showDialog(
       context: context,
       builder: (context) {
-        return  Center(
-          child: Lottie.asset('assets/animations/loading.json',
-          width: 200,
-          height: 200,
+        return Center(
+          child: Lottie.asset(
+            'assets/animations/loading.json',
+            width: 200,
+            height: 200,
             fit: BoxFit.fill,
           ),
         );
@@ -47,14 +47,10 @@ class _SignupScreenState extends State<SignupScreen> {
           email: emailController.text,
           password: passwordController.text,
         );
-
-
-
       } else {
         print("Password doesn't match");
         Navigator.pop(context);
       }
-
     } on FirebaseAuthException catch (e) {
       // If there's an error during sign-up, show an error message
       Navigator.pop(context);
@@ -108,142 +104,172 @@ class _SignupScreenState extends State<SignupScreen> {
     return MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(
-          child: Container(
-            //Background image add & formatted
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/background_1.png'),
-                fit: BoxFit.cover,
+          child: SafeArea(
+            child: Container(
+              //Background image add & formatted
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/background_1.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-              child: Column(children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 75, bottom: 25),
-
-                  //Headline
-                  child: MyText("Let's Create An Account", 24),
-                ),
-
-                //Email Text Box
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30),
-                  child: MyTextField(emailController, 'example@gmail.com', false),
-                ),
-
-                //New Password Text Box Section
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: MyTextField(
-                      passwordController, 'new password', isChecked ?? false),
-                ),
-
-                //Confirm Password TextBox Section
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: MyTextField(confirmPasswordController,
-                      'confirm new password', isChecked ?? false),
-                ),
-
-                //Show Password check box section
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                child: Column(
                   children: [
-                    Checkbox(
-                      value: isChecked,
-                      activeColor: Colors.blue,
-                      tristate: false,
-                      onChanged: (newBool) {
-                        setState(() {
-                          isChecked = newBool;
-                        });
-                      },
+                    const Padding(
+                      padding: EdgeInsets.only(top: 75, bottom: 25),
+
+                      //Headline
+                      child: MyText("Let's Create An Account", 24),
                     ),
-                    const Text('Show password'),
-                  ],
-                ),
 
-                //Signup button section
-                SizedBox(
-                  height: 65,
-                  width: 360,
-                  child: MyButton(
-                      signUserIn,
-                      'Sign up'
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.black54,
-                          thickness: 0.5,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: MyText('Or continue with', 12),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: Colors.black54,
-                          thickness: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                    //Email Text Box
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: OutlinedButton(
-                        onPressed: () => _handleGoogleSignIn(context),
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                10.0), // Adjust the border radius
-                          ),
-                          primary: Colors.white, // Set button background color
-                          side:
-                              BorderSide(color: Colors.black), // Setborder color
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Image.asset(
-                                'assets/images/google.png',
-                                width: 50,
-                                height: 50,
-                              ),
-                            ),
-                            const SizedBox(
-                                width:
-                                    10), // Add spacing between the image and text
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                'Continue With Google',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      child: MyTextField(
+                          emailController, 'example@gmail.com', 'Email', false),
+                    ),
+
+                    //New Password Text Box Section
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: MyTextField(passwordController, 'new password',
+                          'New Password', !showPassword),
+                    ),
+
+                    //Confirm Password TextBox Section
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: MyTextField(
+                          confirmPasswordController,
+                          'confirm new password',
+                          'Confirm Password',
+                           !showPassword,
                       ),
                     ),
+
+                    //Show Password check box section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Checkbox(
+                          value: showPassword,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              showPassword = value!;
+                            });
+                          },
+                        ),
+                        Text('Show Password'),
+                      ],
+                    ),
+                    //Signup button section
+                    SizedBox(
+                      height: 65,
+                      width: 360,
+                      child: MyButton(signUserIn, 'Sign up'),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 30),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Divider(
+                              color: Colors.black54,
+                              thickness: 0.5,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            child: MyText('Or continue with', 12),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: Colors.black54,
+                              thickness: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: OutlinedButton(
+                            onPressed: () => _handleGoogleSignIn(context),
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Adjust the border radius
+                              ),
+                              primary:
+                                  Colors.white, // Set button background color
+                              side: BorderSide(
+                                  color: Colors.black), // Setborder color
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Image.asset(
+                                    'assets/images/google.png',
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                ),
+                                const SizedBox(
+                                    width:
+                                        10), // Add spacing between the image and text
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: Text(
+                                    'Continue With Google',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 50),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Already have an account?',
+                            style: TextStyle(
+                                color: Colors.grey[700],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          GestureDetector(
+                            onTap: widget.onTap,
+                            child: const Text(
+                              '\tLogin',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              ]),
+              ),
             ),
           ),
         ),

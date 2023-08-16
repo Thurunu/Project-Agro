@@ -30,12 +30,12 @@ class _LoginOrSignupState extends State<LoginOrSignup>{
       );
 
     }
-      else {
+    else {
 
       // If 'showLoginScreen' is false, display the SignupScreen
       return SignupScreen(
         toogleScreens,
       );
     }
-    }
-    }
+  }
+}

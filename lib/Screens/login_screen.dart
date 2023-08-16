@@ -4,6 +4,7 @@ import 'package:project_algora_2/custom/my_button.dart';
 import 'package:project_algora_2/custom/my_text.dart';
 import 'package:project_algora_2/custom/my_text_field.dart';
 import '../Back/auth_service.dart';
+import 'forget_password.dart';
 
 class LoginScreen extends StatefulWidget {
   final Function()? onTap;
@@ -18,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool showPassword = false;
 
   void loginUserIn() async {
     // show loading circle
@@ -112,142 +114,150 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        
-        body: SingleChildScrollView(
-          child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/background_1.png'),
-                fit: BoxFit.cover,
+      home: SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/background_1.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 75, bottom: 25),
-                  child: MyText('Welcome Back', 24),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: MyTextField(
-                    emailController,
-                    'example@gmail.com',
-                    false,
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 75, bottom: 25),
+                    child: MyText('Welcome Back', 24),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: MyTextField(passwordController, 'password', true),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: const Text("I've forget my password"),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                    child: MyTextField(
+                      emailController,
+                      'example@gmail.com',
+                      'Email',
+                      false,
                     ),
                   ),
-                ),
-                MyButton(loginUserIn, 'Sign In'),
-                const Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.black54,
-                          thickness: 0.5,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: MyText('Or continue with', 12),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: Colors.black54,
-                          thickness: 0.5,
-                        ),
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: MyTextField(
+                        passwordController, 'password', 'Password', true),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: OutlinedButton(
-                        onPressed: () => _handleGoogleSignIn(context),
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                10.0), // Adjust the border radius as needed
+                  Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: 20),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword()));
+                        },
+
+                        child: const Text("I've forget my password"),
+                      ),
+                    ),
+                  ),
+                  MyButton(loginUserIn, 'Sign In'),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: Colors.black54,
+                            thickness: 0.5,
                           ),
-                          primary: Colors
-                              .white, // Set the desired button background color
-                          side: const BorderSide(
-                              color: Colors.black), // Set the border color
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Image.asset(
-                                'assets/images/google.png',
-                                width: 50,
-                                height: 50,
-                              ),
-                            ),
-                            const SizedBox(
-                                width:
-                                    10), // Add spacing between the image and text
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                'Continue With Google',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: MyText('Or continue with', 12),
                         ),
-                      ),
+                        Expanded(
+                          child: Divider(
+                            color: Colors.black54,
+                            thickness: 0.5,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 50),
-                  child: Row(
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Not a member?',
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                      const SizedBox(width: 5),
-                      GestureDetector(
-                        onTap: widget.onTap,
-                        child: const Text(
-                          'Register now',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: OutlinedButton(
+                          onPressed: () => _handleGoogleSignIn(context),
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Adjust the border radius as needed
+                            ),
+                            primary: Colors
+                                .white, // Set the desired button background color
+                            side: const BorderSide(
+                                color: Colors.black), // Set the border color
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Image.asset(
+                                  'assets/images/google.png',
+                                  width: 50,
+                                  height: 50,
+                                ),
+                              ),
+                              const SizedBox(
+                                  width:
+                                      10), // Add spacing between the image and text
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Text(
+                                  'Continue With Google',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ],
                   ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 50),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Not a member?',
+                          style: TextStyle(
+                              color: Colors.grey[700],
+                          fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        GestureDetector(
+                          onTap: widget.onTap,
+                          child: const Text(
+                            '\tRegister now',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
