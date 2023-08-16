@@ -19,7 +19,7 @@ class Done extends StatelessWidget {
       );
     });
     return Container(
-padding: const EdgeInsets.only(top: 50,left: 20,right: 20),
+      padding: const EdgeInsets.only(top: 50,left: 20,right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,7 +29,7 @@ padding: const EdgeInsets.only(top: 50,left: 20,right: 20),
               width: 200,
               height: 200,
               fit: BoxFit.fill,
-    ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 40,bottom: 20),

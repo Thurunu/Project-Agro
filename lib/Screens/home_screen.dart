@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Center(
-                child: Text('HomeScreen'),
+              child: Text('HomeScreen'),
             ),
             Text(user.email!),
             IconButton(onPressed: (){
