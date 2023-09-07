@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project_algora_2/custom/my_button.dart';
-import 'package:project_algora_2/custom/my_text.dart';
+import '../widgets/my_button.dart';
+import '../widgets/my_text.dart';
 import 'done.dart';
 
 class Choice extends StatefulWidget {
@@ -25,8 +25,7 @@ class _ChoiceState extends State<Choice> {
         await FirebaseFirestore.instance
             .collection('user_details')
             .doc(uid)
-            .set({'user_type': userType})
-            .then((value) => print("User Added"));
+            .set({'user_type': userType}).then((value) => print("User Added"));
       } catch (e) {
         print("Failed to add user: $e");
       }
@@ -49,11 +48,10 @@ class _ChoiceState extends State<Choice> {
             stream: currentUserId().asStream(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
-                return Text("Error occurred while creating the database");
-
+                return const Text("Error occurred while creating the database");
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 // Show a loading indicator while waiting for the user ID
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasData) {
                 // User is logged in, so get the user ID from the snapshot data
                 String uid = snapshot.data!;
@@ -74,7 +72,8 @@ class _ChoiceState extends State<Choice> {
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 15, left: 20, bottom: 30),
-                        child: MyText("Don't Worry this can be changed later", 16),
+                        child:
+                            MyText("Don't Worry this can be changed later", 16),
                       ),
                       MyButton(() => usersData(uid, 'farmer'), 'Farmer'),
                       MyButton(() => usersData(uid, 'seller'), 'Seller'),
@@ -83,7 +82,7 @@ class _ChoiceState extends State<Choice> {
                 );
               } else {
                 // User is NOT logged in, show appropriate UI here
-                return Text("Not logged in");
+                return const Text("Not logged in");
               }
             },
           ),

@@ -2,10 +2,10 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:project_algora_2/custom/my_button.dart';
-import 'package:project_algora_2/custom/my_text.dart';
-import 'package:project_algora_2/custom/my_text_field.dart';
 import '../Back/auth_service.dart';
+import '../widgets/my_button.dart';
+import '../widgets/my_text.dart';
+import '../widgets/my_text_field.dart';
 import 'choice.dart';
 
 class SignupScreen extends StatefulWidget {

@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Back/login_or_signup.dart';
-import 'package:project_algora_2/Screens/home_screen.dart';
+
+import '../Body/home_screen.dart';
 
 class AuthPage extends StatelessWidget{
 

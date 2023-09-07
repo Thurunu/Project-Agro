@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project_algora_2/Back/auth_page.dart';
-import 'package:project_algora_2/Screens/home_screen.dart';
-import 'package:project_algora_2/custom/my_text.dart';
+
+import '../widgets/my_text.dart';
+
 
 class Done extends StatelessWidget {
   const Done({Key? key}) : super(key: key);
