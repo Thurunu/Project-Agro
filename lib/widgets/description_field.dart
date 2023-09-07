@@ -1,20 +1,49 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-class DescriptionField extends StatelessWidget {
+class DescriptionField extends StatefulWidget {
   final String cropName;
-   const DescriptionField({
+  final String cropDetails;
+  final double currentWidth;
+
+  const DescriptionField({
     super.key,
     required this.currentWidth,
     required this.cropName,
+    required this.cropDetails,
+
   });
 
-  final double currentWidth;
+  _DescriptionFieldState createState() => _DescriptionFieldState();
+}
 
+class _DescriptionFieldState extends State<DescriptionField> {
+  final storage = FirebaseStorage.instance;
+  late String imageUrl;
+
+  void initState(){
+    super.initState();
+    //seting up initial value of image url to empty
+    imageUrl = "";
+    //retrive the iamge from firebase storage
+    getImageUrl();
+  }
+
+  Future<void> getImageUrl() async {
+    //Get the image from firebase storage
+    final ref = storage.ref().child("crops/${widget.cropName}.webp");
+
+    final imageRef = await ref.getDownloadURL();
+    setState(() {
+      print(imageRef);
+      imageUrl = imageRef.toString();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10.0),
-      width: currentWidth,
+      width: widget.currentWidth,
       height: 150,
       child: Stack(
         children: [
@@ -32,26 +61,26 @@ class DescriptionField extends StatelessWidget {
                   bottomRight: Radius.circular(180),
                 ),
               ),
-              child:  Padding(
-                padding: EdgeInsets.only(left: 15, top: 10, right: 75),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, top: 10, right: 75),
                 child: Column(
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        cropName,
+                        widget.cropName,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Expanded(
                       child: Text(
-                        "Can be grown in almost all agroclimatic zones in Sri Lanka except up country wet zone.",
+                        widget.cropDetails,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -72,14 +101,16 @@ class DescriptionField extends StatelessWidget {
             child: Container(
               height: 200,
               width: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/test/Tomato.png"),
+                  image: NetworkImage(imageUrl),
+
                   fit: BoxFit.contain,
                 ),
               ),
             ),
           ),
+
         ],
       ),
     );
