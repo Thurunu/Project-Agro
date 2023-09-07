@@ -23,10 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     await FirebaseFirestore.instance.collection("crop_details").get().then(
           (snapshot) => snapshot.docs.forEach((document) {
-            print(document.id);
+
             docIDs.add(document.id);
-            print(docIDs.length);
-            print(docIDs);
+
           },
           ),
         );
@@ -45,16 +44,33 @@ class _HomeScreenState extends State<HomeScreen> {
               alignment: Alignment.topRight,
               child: BackgroundCircle(height: 300.0, width: 300.0),
             ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: BackgroundCircle(height: 300.0, width: 300.0),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top:50, left: 20),
+              child: Text("Popular crops in your area",
+                style: TextStyle(
+                  color: Color.fromRGBO(27, 94, 32, 0.9),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
 
             FutureBuilder(
               future: getDocIDs(),
                 builder: (context, snapshot){
 
-                return ListView.builder(
-                  itemCount: docIDs.length,
-                    itemBuilder: (context, index){
-                    return GetCropDetails(doucmentID: docIDs[index],width: currentWidth,);
-                    }
+                return Padding(
+                  padding: const EdgeInsets.only(top: 100),
+                  child: ListView.builder(
+                    itemCount: docIDs.length,
+                      itemBuilder: (context, index){
+                      return GetCropDetails(doucmentID: docIDs[index],width: currentWidth,);
+                      }
+                  ),
                 );
                 }
             ),

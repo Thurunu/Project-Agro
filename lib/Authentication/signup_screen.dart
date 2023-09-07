@@ -143,12 +143,13 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: Column(
+
                   children: [
                     const Padding(
                       padding: EdgeInsets.only(top: 75, bottom: 25),
 
                       //Headline
-                      child: MyText("Let's Create An Account", 24),
+                      child: MyText(text: "Let's Create An Account", size: 24, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.bold,),
                     ),
 
                     //Email Text Box
@@ -217,7 +218,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: MyText('Or continue with', 12),
+                            child: MyText(text: 'Or Continue With', size: 12, color: Colors.black12, fontWeight: FontWeight.w600),
+
                           ),
                           Expanded(
                             child: Divider(
