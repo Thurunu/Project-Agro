@@ -245,7 +245,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                               primary:
                                   Colors.white, // Set button background color
-                              side: BorderSide(
+                              side: const BorderSide(
                                   color: Colors.black), // Setborder color
                             ),
 
