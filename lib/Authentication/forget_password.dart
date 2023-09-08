@@ -88,11 +88,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Forget Password Text
-              const MyText("Forget Password", 30),
+              const MyText(text: 'Forget Password', size: 24, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.bold),
               const Padding(
                 padding: EdgeInsets.only(top: 20),
-                child: MyText(
-                    "Enter your email address to get password rest link. ", 18),
+                child: MyText(text: 'Enter your email address to reset your password.', size: 16, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.normal),
               ),
 
               //Email Text Box

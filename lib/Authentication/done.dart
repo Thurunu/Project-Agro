@@ -33,9 +33,9 @@ class Done extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 40,bottom: 20),
-            child: MyText('All set.', 28),
+            child: MyText(text: 'Done!', size: 24, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.bold,),
           ),
-          MyText("You'll be signed into your account in a moment.", 18),
+          MyText(text: "You'll be signed into your account in a moment.", size: 14, color: Colors.black12, fontWeight: FontWeight.bold)
         ],
       ),
     );
