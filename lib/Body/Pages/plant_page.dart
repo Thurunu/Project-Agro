@@ -10,8 +10,8 @@ class PlantPage extends StatefulWidget {
 class _PlantPageState extends State<PlantPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
 
-        child: Center(child: const Text("Plant Page")));
+        Center(child: const Text("Plant Page"));
   }
 }

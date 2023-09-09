@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Back/login_or_signup.dart';
+import 'package:project_algora_2/Body/bottom_nav_bar_screen.dart';
 
-import '../Body/home_screen.dart';
+import '../Body/Pages/home_page.dart';
 
 class AuthPage extends StatelessWidget{
 
@@ -16,7 +17,7 @@ class AuthPage extends StatelessWidget{
           } else
             // user is logged in
           if (snapshot.hasData) {
-            return HomeScreen();
+            return BottomNavBarScreen();
           }
 
           // user is NOT logged in
