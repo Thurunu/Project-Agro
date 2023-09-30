@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../Back/auth_service.dart';
+import '../widgets/background_circle.dart';
 import '../widgets/my_button.dart';
 import '../widgets/my_text.dart';
 import '../widgets/my_text_field.dart';
@@ -130,189 +131,196 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Container(
-              //Background image add & formatted
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/background_1.png'),
-                  fit: BoxFit.cover,
-                ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Stack(
+            children: [
+            //Background image add & formatted
+            Padding(
+              padding: const EdgeInsets.only(top:150),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: BackgroundCircle(height: 300.0, width: 300.0),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                child: Column(
+            ),
+             Column(
+               children: [
+                 Padding(
+                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                  child: Column(
 
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 75, bottom: 25),
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 75, bottom: 25),
 
-                      //Headline
-                      child: MyText(text: "Let's Create An Account", size: 24, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.bold,),
-                    ),
+                        //Headline
+                        child: MyText(text: "Let's Create An Account", size: 24, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.bold,),
+                      ),
 
-                    //Email Text Box
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 30),
-                      child: MyTextField(
+                      //Email Text Box
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 30),
+                        child: MyTextField(
                           controller:emailController,
                           hintText: 'example@gmail.com',
                           labelText: 'Email',
                           obscureText: false,
+                        ),
                       ),
-                    ),
 
-                    //New Password Text Box Section
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: MyTextField(
-                          controller: passwordController,
-                          hintText: 'new password',
-                          labelText: 'New Password',
-                          obscureText: !showPassword),
-                    ),
+                      //New Password Text Box Section
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: MyTextField(
+                            controller: passwordController,
+                            hintText: 'new password',
+                            labelText: 'New Password',
+                            obscureText: !showPassword),
+                      ),
 
-                    //Confirm Password TextBox Section
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: MyTextField(
+                      //Confirm Password TextBox Section
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: MyTextField(
                           controller:confirmPasswordController,
                           hintText:'confirm new password',
                           labelText:'Confirm Password',
-                           obscureText:!showPassword,
-                      ),
-                    ),
-
-                    //Show Password check box section
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Checkbox(
-                          value: showPassword,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              showPassword = value!;
-                            });
-                          },
+                          obscureText:!showPassword,
                         ),
-                        Text('Show Password'),
-                      ],
-                    ),
-                    //Signup button section
-                    SizedBox(
-                      height: 65,
-                      width: 360,
-                      child: MyButton(validateEmail, 'Sign up'),
-                    ),
-                    //Divider
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 30),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.black54,
-                              thickness: 0.5,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: MyText(text: 'Or Continue With', size: 12, color: Colors.black12, fontWeight: FontWeight.w600),
+                      ),
 
+                      //Show Password check box section
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Checkbox(
+                            value: showPassword,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                showPassword = value!;
+                              });
+                            },
                           ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.black54,
-                              thickness: 0.5,
+                          Text('Show Password'),
+                        ],
+                      ),
+                      //Signup button section
+                      SizedBox(
+                        height: 65,
+                        width: 360,
+                        child: MyButton(validateEmail, 'Sign up'),
+                      ),
+                      //Divider
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 30),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: Colors.black54,
+                                thickness: 0.5,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              child: MyText(text: 'Or Continue With', size: 12, color: Colors.black12, fontWeight: FontWeight.w600),
+
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: Colors.black54,
+                                thickness: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //Google Sign up button
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: OutlinedButton(
+                              onPressed: () => _handleGoogleSignIn(context),
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10.0), // Adjust the border radius
+                                ),
+                                primary:
+                                Colors.white, // Set button background color
+                                side: const BorderSide(
+                                    color: Colors.black), // Setborder color
+                              ),
+
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Image.asset(
+                                      'assets/images/google.png',
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                      width:
+                                      10), // Add spacing between the image and text
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    child: Text(
+                                      'Continue With Google',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    //Google Sign up button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: OutlinedButton(
-                            onPressed: () => _handleGoogleSignIn(context),
-                            style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    10.0), // Adjust the border radius
-                              ),
-                              primary:
-                                  Colors.white, // Set button background color
-                              side: const BorderSide(
-                                  color: Colors.black), // Setborder color
-                            ),
-
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Image.asset(
-                                    'assets/images/google.png',
-                                    width: 50,
-                                    height: 50,
-                                  ),
-                                ),
-                                const SizedBox(
-                                    width:
-                                        10), // Add spacing between the image and text
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
-                                    'Continue With Google',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    //Already have an account? Login
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 50),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Already have an account?',
-                            style: TextStyle(
-                                color: Colors.grey[700],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          GestureDetector(
-                            onTap: widget.onTap,
-                            child: const Text(
-                              '\tLogin',
+                      //Already have an account? Login
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 50),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Already have an account?',
                               style: TextStyle(
-                                color: Colors.blue,
+                                color: Colors.grey[700],
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                            const SizedBox(width: 5),
+                            GestureDetector(
+                              onTap: widget.onTap,
+                              child: const Text(
+                                '\tLogin',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
             ),
+               ],
+             ),
+            ],
           ),
         ),
+      ),
 
     );
   }

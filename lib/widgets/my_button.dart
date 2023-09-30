@@ -9,14 +9,22 @@ class MyButton extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.only(top: 10),
-      child: SizedBox(
-        height: 80,
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: ElevatedButton(
-          onPressed: onPressed,
-          child: Text(
-            text,
-            style: TextStyle(fontSize: 24),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: SizedBox(
+          height: 60,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: ElevatedButton(
+            onPressed: onPressed,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Color.fromRGBO(27, 94, 32, 0.9)),
+            ),
+            child: Text(
+              text,
+
+              style: TextStyle(fontSize: 24),
+            ),
           ),
         ),
       ),

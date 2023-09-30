@@ -62,8 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
+
+
       );
       hideLoadingIndicator();
+      Navigator.pushReplacementNamed(context, '/bottom_nav_bar_screen');
     } on FirebaseAuthException catch (e) {
       hideLoadingIndicator();
       if (e.code == 'user-not-found') {
@@ -116,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print("Signed in with Google: ${userCredential.user?.displayName}");
 
       // Navigate to the HomeScreen
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/bottom_nav_bar_screen');
     } else {
       // Sign-in was not successful or was cancelled
       print("Sign-in with Google was not successful.");
@@ -157,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //Email textfield
                     Padding(
                       padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       child: MyTextField(
                         controller: emailController,
                         hintText: 'example@gmail.com',
@@ -173,6 +176,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintText: 'password',
                           labelText: 'Password',
                           obscureText: true),
+                    ),
+                    //Show Password check box section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Checkbox(
+                          value: showPassword,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              showPassword = value!;
+                            });
+                          },
+                        ),
+                        Text('Show Password'),
+                      ],
                     ),
 
                     //forget password button
@@ -247,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 const SizedBox(
                                     width:
-                                        10), // Add spacing between the image and text
+                                    10), // Add spacing between the image and text
                                 const Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
@@ -264,7 +282,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-              //Move to sign up screen
+                    //Move to sign up screen
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 50),
                       child: Row(
