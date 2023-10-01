@@ -1,17 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:project_algora_2/Authentication/check_inbox.dart';
 
 import '../widgets/my_button.dart';
 import '../widgets/my_text.dart';
 import '../widgets/my_text_field.dart';
 
-
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
 
   @override
-  _ForgetPasswordState createState() => _ForgetPasswordState();
+  State<ForgetPassword> createState(){
+  return _ForgetPasswordState();
+  }
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
@@ -22,6 +24,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     resetMailController.dispose();
     super.dispose();
   }
+
 //validate email
   void validateEmail() {
     String email = resetMailController.text;
@@ -53,11 +56,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: resetMailController.text);
 //Display message to user
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Password reset link sent to your email."),
-        ),
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CheckInbox()),
       );
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showDialog(
@@ -88,10 +91,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Forget Password Text
-              const MyText(text: 'Forget Password', size: 24, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.bold),
+              const MyText(
+                  text: 'Forget Password',
+                  size: 24,
+                  color: Color.fromRGBO(27, 94, 32, 0.9),
+                  fontWeight: FontWeight.bold),
               const Padding(
                 padding: EdgeInsets.only(top: 20),
-                child: MyText(text: 'Enter your email address to reset your password.', size: 16, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.normal),
+                child: MyText(
+                    text: 'Enter your email address to reset your password.',
+                    size: 16,
+                    color: Color.fromRGBO(27, 94, 32, 0.9),
+                    fontWeight: FontWeight.normal),
               ),
 
               //Email Text Box

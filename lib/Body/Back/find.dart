@@ -35,39 +35,39 @@ class Find {
         latitude <= wetZoneLatRange[1] &&
         longitude >= wetZoneLongRange[0] &&
         longitude <= wetZoneLongRange[1]) {
-      return "Wet Zone";
+      return "wet_zone";
     } else if (latitude >= intermediateZoneLatRange[0] &&
         latitude <= intermediateZoneLatRange[1] &&
         longitude >= intermediateZoneLongRange[0] &&
         longitude <= intermediateZoneLongRange[1]) {
-      return "Intermediate Zone";
+      return "intermediate_zone";
     } else if (latitude >= dryZoneLatRange[0] &&
         latitude <= dryZoneLatRange[1] &&
         longitude >= dryZoneLongRange[0] &&
         longitude <= dryZoneLongRange[1]) {
-      return "Dry Zone";
+      return "dry_zone";
     } else if (latitude >= aridZoneLatRange[0] &&
         latitude <= aridZoneLatRange[1] &&
         longitude >= aridZoneLongRange[0] &&
         longitude <= aridZoneLongRange[1]) {
-      return "Arid Zone";
+      return "arid_zone";
     } else if (latitude >= uplandZoneLatRange[0] &&
         latitude <= uplandZoneLatRange[1] &&
         longitude >= uplandZoneLongRange[0] &&
         longitude <= uplandZoneLongRange[1]) {
-      return "Upland Zone";
+      return "upland_zone";
     } else if (latitude >= highlandZoneLatRange[0] &&
         latitude <= highlandZoneLatRange[1] &&
         longitude >= highlandZoneLongRange[0] &&
         longitude <= highlandZoneLongRange[1]) {
-      return "Highland Zone";
+      return "highland_zone";
     } else if (latitude >= coastalZoneLatRange[0] &&
         latitude <= coastalZoneLatRange[1] &&
         longitude >= coastalZoneLongRange[0] &&
         longitude <= coastalZoneLongRange[1]) {
-      return "Coastal Zone";
+      return "coastal_zone";
     } else {
-      return "Unknown Zone";
+      return "unknown_zone";
     }
   }
 }

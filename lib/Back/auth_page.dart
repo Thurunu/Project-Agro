@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:project_algora_2/Back/login_or_signup.dart';
 import 'package:project_algora_2/Body/bottom_nav_bar_screen.dart';
 
-import '../Body/Pages/home_page.dart';
-
 class AuthPage extends StatelessWidget{
 
   Widget build(BuildContext context){

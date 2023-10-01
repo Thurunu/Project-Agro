@@ -9,7 +9,9 @@ class Choice extends StatefulWidget {
   const Choice({Key? key}) : super(key: key);
 
   @override
-  _ChoiceState createState() => _ChoiceState();
+  State<Choice> createState() {
+    return _ChoiceState();
+  }
 }
 
 class _ChoiceState extends State<Choice> {
