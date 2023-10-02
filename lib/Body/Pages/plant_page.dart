@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_algora_2/Body/Pages/profile/profile_settings.dart';
 
 class PlantPage extends StatefulWidget {
   const PlantPage({super.key});
@@ -36,7 +37,15 @@ class _PlantPageState extends State<PlantPage> {
               ),
             ),
           ),
-        ],
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context){
+                  return ProfileSettings();
+                })
+            );
+          }, child: Text("Pressed"),
+          ),
+      ]
       ),
     );
   }

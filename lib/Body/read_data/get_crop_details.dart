@@ -42,8 +42,10 @@ class _GetCropDetailsState extends State<GetCropDetails> {
         for (QueryDocumentSnapshot document in documents) {
           print('Document ID: ${document.id}');
         }
-        final List<String> name = documents.map((doc) => doc['name'] as String).toList();
-        final List<String> description = documents.map((doc) => doc['description'] as String).toList();
+        final List<String> name =
+            documents.map((doc) => doc['name'] as String).toList();
+        final List<String> description =
+            documents.map((doc) => doc['description'] as String).toList();
 
         print(description);
         print(name);
@@ -52,13 +54,15 @@ class _GetCropDetailsState extends State<GetCropDetails> {
           itemCount: documents.length,
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          itemBuilder: (context, index){
-            return DescriptionField(currentWidth: widget.screenWidth, cropName: name[index], cropDetails: description[index]);
+          itemBuilder: (context, index) {
+            return DescriptionField(
+              currentWidth: widget.screenWidth,
+              cropName: name[index],
+              cropDetails: description[index],
+            );
           },
         );
-        },
+      },
     );
   }
-
 }
-
