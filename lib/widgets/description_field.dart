@@ -43,8 +43,8 @@ class _DescriptionFieldState extends State<DescriptionField> {
       if (response.statusCode == 200) {
         setState(() {
           imageUrl = imageRef; // Store the image URL directly.
-          print('*********************************');
-          print(imageUrl);
+          // print('*********************************');
+          // print(imageUrl);
           isLoading = false; // Set loading to false when the image is loaded.
         });
       } else {
@@ -118,7 +118,16 @@ class _DescriptionFieldState extends State<DescriptionField> {
             top: 1.5,
             child:
                 isLoading
-                    ? CircularProgressIndicator() : // Show a loading indicator while the image is loading.
+                    ? SizedBox(
+                  width: 200,
+                  height: 1.0,
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.grey.shade500,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green.shade500),
+                    value: 0.5,
+                    minHeight: 0.5,
+                  ),
+                ) : // Show a loading indicator while the image is loading.
                 Container(
               height: 200,
               width: 200,

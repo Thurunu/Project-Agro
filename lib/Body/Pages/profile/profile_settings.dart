@@ -19,7 +19,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             IconButton(onPressed: (){
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context){
-                  return const BottomNavBarScreen();
+                  return const BottomNavBarScreen(initialPage: 3,);
                 })
               );
             }, icon: const Icon(Icons.arrow_back,size: 25,),),

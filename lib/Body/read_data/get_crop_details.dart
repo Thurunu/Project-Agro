@@ -32,7 +32,12 @@ class _GetCropDetailsState extends State<GetCropDetails> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // or a loading indicator
+          return LinearProgressIndicator(
+            backgroundColor: Colors.grey[300], // Light gray background
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue), // Blue progress color
+            value: 0.5, // Set the current progress value (between 0 and 1)
+            minHeight: 4.0, // Set the height of the progress bar
+          ); // or a loading indicator
         }
 
         // Process the data from the snapshot here
@@ -40,15 +45,15 @@ class _GetCropDetailsState extends State<GetCropDetails> {
 
         // Print the document IDs
         for (QueryDocumentSnapshot document in documents) {
-          print('Document ID: ${document.id}');
+          // print('Document ID: ${document.id}');
         }
         final List<String> name =
             documents.map((doc) => doc['name'] as String).toList();
         final List<String> description =
             documents.map((doc) => doc['description'] as String).toList();
 
-        print(description);
-        print(name);
+        // print(description);
+        // print(name);
 
         return ListView.builder(
           itemCount: documents.length,

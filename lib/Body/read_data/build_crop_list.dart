@@ -8,7 +8,7 @@ Widget BuildCropList(String zone) {
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         // While waiting for the data to load, you can return a loading indicator.
-        return CircularProgressIndicator(); // Replace with your desired loading widget.
+        return const LinearProgressIndicator(); // Replace with your desired loading widget.
       } else if (snapshot.hasError) {
         // If an error occurs, you can return an error message or widget.
         return Text("Error: ${snapshot.error}");
@@ -18,16 +18,13 @@ Widget BuildCropList(String zone) {
         String crops = data['crops'] ?? '';
 
         List<String> cropsList = crops.split(',');
-        print('**************building crop list******************');
-        print(cropsList);
+        // print('**************building crop list******************');
+        // print(cropsList);
 
         return ListView.builder(
           itemCount: cropsList.length,
           itemBuilder: (context, index) {
-            // return GetCropDetails(
-            //   documentID: docIDs[index],
-            //   width: currentWidth,
-            // );
+
           },
         );
       } else {

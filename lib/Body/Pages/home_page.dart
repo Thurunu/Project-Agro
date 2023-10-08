@@ -20,14 +20,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void updateLocation(bool value) {
-    print("********************Pressed**********");
+    // print("********************Pressed**********");
     setState(() {
       locationDetected = value;
     });
   }
 
   void updateZone(String value) {
-    print('*************update zone************');
+    // print('*************update zone************');
     setState(() {
       zone = value;
     });
@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: LocationDetector(
                       onZoneChanged: (newZone) {
                         // Do something with the new zone value in the other class/widget
-                        print("Zone changed to: $newZone");
+                        // print("Zone changed to: $newZone");
                         updateZone(newZone);
                       },
                     ),

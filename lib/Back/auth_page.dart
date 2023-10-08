@@ -15,7 +15,7 @@ class AuthPage extends StatelessWidget{
           } else
             // user is logged in
           if (snapshot.hasData) {
-            return BottomNavBarScreen();
+            return BottomNavBarScreen(initialPage: 0,);
           }
 
           // user is NOT logged in

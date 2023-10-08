@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // Navigator.pushReplacementNamed(context, '/bottom_nav_bar_screen');
       Navigator.push(
           this.context,
-          MaterialPageRoute(builder: (context) => BottomNavBarScreen(),),
+          MaterialPageRoute(builder: (context) => BottomNavBarScreen(initialPage: 0,),),
       );
     } else {
       // Sign-in was not successful or was cancelled
