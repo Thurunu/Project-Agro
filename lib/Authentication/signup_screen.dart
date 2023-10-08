@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project_algora_2/widgets/constants.dart';
-import 'package:project_algora_2/widgets/password_text_field.dart';
 import '../Back/auth_service.dart';
+import '../widgets/Buttons/my_button.dart';
+import '../widgets/TextFields/my_text_field.dart';
+import '../widgets/TextFields/password_text_field.dart';
 import '../widgets/background_circle.dart';
-import '../widgets/my_button.dart';
-import '../widgets/my_text.dart';
-import '../widgets/my_text_field.dart';
+import '../widgets/TextFields/my_text.dart';
 import 'choice.dart';
 
 class SignupScreen extends StatefulWidget {

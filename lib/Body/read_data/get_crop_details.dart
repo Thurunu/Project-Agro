@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/description_field.dart';
+import '../../widgets/TextFields/description_field.dart';
 
 class GetCropDetails extends StatefulWidget {
   double screenWidth;

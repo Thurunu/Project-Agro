@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:project_algora_2/widgets/constants.dart';
 import '../Back/auth_service.dart';
 import '../Body/bottom_nav_bar_screen.dart';
+import '../widgets/Buttons/my_button.dart';
+import '../widgets/TextFields/my_text_field.dart';
+import '../widgets/TextFields/password_text_field.dart';
 import '../widgets/background_circle.dart';
-import '../widgets/my_button.dart';
-import '../widgets/my_text.dart';
-import '../widgets/my_text_field.dart';
-import '../widgets/password_text_field.dart';
+import '../widgets/TextFields/my_text.dart';
 import 'forget_password.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -110,8 +110,12 @@ class _LoginScreenState extends State<LoginScreen> {
       // Navigate to the HomeScreen
       // Navigator.pushReplacementNamed(context, '/bottom_nav_bar_screen');
       Navigator.push(
-          this.context,
-          MaterialPageRoute(builder: (context) => BottomNavBarScreen(initialPage: 0,),),
+        this.context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavBarScreen(
+            initialPage: 0,
+          ),
+        ),
       );
     } else {
       // Sign-in was not successful or was cancelled
@@ -142,16 +146,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(top: 150),
                   child: Align(
                     alignment: Alignment.topCenter,
-                    child: BackgroundCircle(height: screenHeight, width: screenWidth),
+                    child: BackgroundCircle(
+                        height: screenHeight, width: screenWidth),
                   ),
                 ),
                 //Welcome Text
                 Column(
                   children: [
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.only(top: 75, bottom: 25),
-                      child: Text('Welcome back',
-                      style: kHeadingTextStyle,
+                      child: Text(
+                        'Welcome back',
+                        style: kHeadingTextStyle,
                       ),
                     ),
                     //Email text-field
@@ -166,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     //Password text-field
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: PasswordTextField(
                         controller: passwordController,
@@ -255,8 +261,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const SizedBox(
                                     width:
                                         10), // Add spacing between the image and text
-                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: screenWidth/100),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth / 100),
                                   child: const Text(
                                     'Continue With Google',
                                     style: TextStyle(

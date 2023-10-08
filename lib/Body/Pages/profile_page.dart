@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Body/Pages/profile/profile_settings.dart';
-import '../../widgets/buttons.dart';
+import '../../widgets/Buttons/buttons.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -132,7 +132,7 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.green.shade50,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Buttons(labelText: 'Help', iconData: Icons.support),
+                    child: Buttons(labelText: 'Help', iconData: Icons.support,),
                   ),
                 ),
               ),
@@ -142,7 +142,7 @@ class ProfilePage extends StatelessWidget {
                   //Button function goes here
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (context){
-                      return ProfileSettings();
+                      return const ProfileSettings();
                     })
                   );
                 },
@@ -152,7 +152,7 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.green.shade50,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Buttons(labelText: 'Settings', iconData: Icons.settings),
+                    child: Buttons(labelText: 'Settings', iconData: Icons.settings,),
                   ),
                 ),
               ),

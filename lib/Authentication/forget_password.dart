@@ -2,17 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Authentication/check_inbox.dart';
-
-import '../widgets/my_button.dart';
-import '../widgets/my_text.dart';
-import '../widgets/my_text_field.dart';
+import '../widgets/Buttons/my_button.dart';
+import '../widgets/TextFields/my_text.dart';
+import '../widgets/TextFields/my_text_field.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
 
   @override
-  State<ForgetPassword> createState(){
-  return _ForgetPasswordState();
+  State<ForgetPassword> createState() {
+    return _ForgetPasswordState();
   }
 }
 
@@ -60,7 +59,6 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         context,
         MaterialPageRoute(builder: (context) => CheckInbox()),
       );
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showDialog(

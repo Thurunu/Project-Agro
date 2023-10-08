@@ -90,6 +90,7 @@ flutter:
      - assets/images/farmer.png
      - assets/images/seller.png
      - assets/test/Tomato.png
+     - assets/images/user.png
      - assets/gif/Code typing.gif
      - assets/gif/Mailbox.gif
      - assets/animations/loading.json

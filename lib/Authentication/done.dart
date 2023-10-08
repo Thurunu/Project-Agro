@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project_algora_2/Back/auth_page.dart';
 
-import '../widgets/my_text.dart';
+import '../widgets/TextFields/my_text.dart';
 
 
 class Done extends StatelessWidget {

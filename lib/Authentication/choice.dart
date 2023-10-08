@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../widgets/my_button.dart';
-import '../widgets/my_text.dart';
+import '../widgets/Buttons/my_button.dart';
+import '../widgets/TextFields/my_text.dart';
 import 'done.dart';
 
 class Choice extends StatefulWidget {
