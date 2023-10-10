@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project_algora_2/Body/Pages/profile_page.dart';
 import 'package:project_algora_2/Body/bottom_nav_bar_screen.dart';
 import 'package:project_algora_2/widgets/TextFields/text_box.dart';
 
@@ -30,6 +29,25 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Edit Profile',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.close,color: Colors.black,),
+          onPressed: (
+              ) {
+            Navigator.push(
+              this.context,
+              MaterialPageRoute(builder: (context) => BottomNavBarScreen(initialPage: 3,),)
+            );
+          },
+        ),
+      ),
+
       body: SafeArea(
         minimum: EdgeInsets.only(
           top: screenHeight * 0.15,
@@ -49,9 +67,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               height: 20,
             ),
             Text(
-              currentUser.email!,
+              'Edit Profile Picture',
+              style: TextStyle(color: Colors.green, fontSize: 16, fontWeight: FontWeight.w500,),
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -59,11 +77,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 left: 10.0,
               ),
               child: Text(
-                'Saved Places',
+                'Name',
                 style: TextStyle(
                   color: Colors.grey.shade900,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
                 ),
               ),
             ),

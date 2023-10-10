@@ -54,7 +54,7 @@ class _CheckInboxState extends State<CheckInbox> {
 
                       Navigator.push(
                         this.context,
-                        MaterialPageRoute(builder: (context) => LoginOrSignup())
+                        MaterialPageRoute(builder: (context) => const LoginOrSignup())
                       );
                     },
                     style: ElevatedButton.styleFrom(

@@ -1,6 +1,5 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/OnBoarding/onboarding_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +23,7 @@ Future<void> main() async {
   final showHome = prefs.getBool('showHome') ?? false;
   runApp(MyApp(showHome: showHome));
   runApp(
-    MyApp(showHome: showHome)
+      MyApp(showHome: showHome)
   );
 }
 
@@ -46,5 +45,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 

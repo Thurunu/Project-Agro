@@ -4,18 +4,21 @@ import 'package:project_algora_2/Back/login_or_signup.dart';
 import 'package:project_algora_2/Body/bottom_nav_bar_screen.dart';
 
 class AuthPage extends StatelessWidget{
+  const AuthPage({super.key});
 
+
+  @override
   Widget build(BuildContext context){
     return Scaffold(
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if(snapshot.hasError){
-            return Text("Username or Password incorrect!");
+            return const Text("Username or Password incorrect!");
           } else
             // user is logged in
           if (snapshot.hasData) {
-            return BottomNavBarScreen(initialPage: 0,);
+            return const BottomNavBarScreen(initialPage: 0,);
           }
 
           // user is NOT logged in
