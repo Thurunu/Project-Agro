@@ -41,8 +41,16 @@ class _LoginScreenState extends State<LoginScreen> {
         !email.contains('.')) {
       showSnackBarMessage("Please enter a valid email address.");
     } else {
-      loginUserIn();
+      validatePassword();
     }
+  }
+
+  void validatePassword() {
+    String password = passwordController.text;
+    if (password.isEmpty)
+      showSnackBarMessage("Please enter your password.");
+    else
+      loginUserIn();
   }
 
   void showLoadingIndicator() {
@@ -68,7 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
         password: passwordController.text,
       );
       hideLoadingIndicator();
-      Navigator.pushReplacementNamed(context, '/bottom_nav_bar_screen');
+      Navigator.push(
+        this.context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavBarScreen(
+            initialPage: 0,
+          ),
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       hideLoadingIndicator();
       if (e.code == 'user-not-found') {

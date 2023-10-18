@@ -1,10 +1,10 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'Pages/home_page.dart';
 import 'Pages/iot_page.dart';
 import 'Pages/plant_page.dart';
 import 'Pages/profile_page.dart';
-import 'Pages/home_page.dart';
 
 class BottomNavBarScreen extends StatefulWidget {
   final int initialPage;
@@ -28,6 +28,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // Prevent content from resizing when the keyboard appears
       body: PageView(
         controller: _pageController,
         children: const <Widget>[
@@ -51,7 +52,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
           FaIcon(FontAwesomeIcons.microchip), // Bottom navigation item 2 (IOT)
           Icon(Icons.person), // Bottom navigation item 3 (Profile)
         ],
-        color: Colors.blueAccent,//change background color of navigation bar & circle
+        color: Colors.blueAccent,
         backgroundColor: Colors.yellowAccent,
         height: 60.0,
         onTap: (int index) {
