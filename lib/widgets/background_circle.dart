@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BackgroundCircle extends StatelessWidget {
-  double height;
-  double width;
-   BackgroundCircle({
+  final double height;
+  final double width;
+   const BackgroundCircle({
     required this.height,
     required this.width,
     super.key,

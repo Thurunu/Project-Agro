@@ -3,7 +3,10 @@ import '../Authentication/login_screen.dart';
 import '../Authentication/signup_screen.dart';
 
 class LoginOrSignup extends StatefulWidget{
+  const LoginOrSignup({super.key});
 
+
+  @override
   State<LoginOrSignup> createState(){
     return _LoginOrSignupState();
   }
@@ -21,6 +24,7 @@ class _LoginOrSignupState extends State<LoginOrSignup>{
   }
 
   // Build method to return either the LoginScreen or SignupScreen based on the 'showLoginScreen' flag
+  @override
   Widget build(BuildContext context){
 
     if(showLoginScreen) {

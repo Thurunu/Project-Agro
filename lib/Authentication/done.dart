@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project_algora_2/Back/auth_page.dart';
 
-import '../widgets/my_text.dart';
-
+import '../widgets/TextFields/my_text.dart';
 
 class Done extends StatelessWidget {
   const Done({Key? key}) : super(key: key);
@@ -14,28 +13,38 @@ class Done extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>  AuthPage(),
+          builder: (context) => AuthPage(),
         ),
       );
     });
     return Container(
-      padding: const EdgeInsets.only(top: 50,left: 20,right: 20),
+      padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Lottie.asset('assets/animations/tick.json',
+            child: Lottie.asset(
+              'assets/animations/tick.json',
               width: 200,
               height: 200,
               fit: BoxFit.fill,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 40,bottom: 20),
-            child: MyText(text: 'Done!', size: 24, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.bold,),
+          const Padding(
+            padding: EdgeInsets.only(left: 40, bottom: 20),
+            child: MyText(
+              text: 'Done!',
+              size: 24,
+              color: Color.fromRGBO(27, 94, 32, 0.9),
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          MyText(text: "You'll be signed into your account in a moment.", size: 14, color: Colors.black12, fontWeight: FontWeight.bold)
+          const MyText(
+              text: "You'll be signed into your account in a moment.",
+              size: 14,
+              color: Colors.black12,
+              fontWeight: FontWeight.bold)
         ],
       ),
     );

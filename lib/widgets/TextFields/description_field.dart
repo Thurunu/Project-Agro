@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DescriptionField extends StatefulWidget {
   final String cropName;
@@ -11,34 +12,51 @@ class DescriptionField extends StatefulWidget {
     required this.currentWidth,
     required this.cropName,
     required this.cropDetails,
-
   });
 
-  _DescriptionFieldState createState() => _DescriptionFieldState();
+  @override
+  State<DescriptionField> createState() => _DescriptionFieldState();
 }
 
 class _DescriptionFieldState extends State<DescriptionField> {
   final storage = FirebaseStorage.instance;
   late String imageUrl;
+  bool isLoading = true; // Track whether the image is still loading.
 
-  void initState(){
+  @override
+  void initState() {
     super.initState();
-    //seting up initial value of image url to empty
+    // Set up the initial value of imageUrl to an empty string.
     imageUrl = "";
-    //retrive the iamge from firebase storage
+    // Retrieve the image from Firebase Storage.
     getImageUrl();
   }
 
   Future<void> getImageUrl() async {
-    //Get the image from firebase storage
-    final ref = storage.ref().child("crops/${widget.cropName}.webp");
+    try {
+      // Get the image from Firebase Storage.
+      final ref = storage.ref().child("crops/${widget.cropName}.webp");
+      final imageRef = await ref.getDownloadURL();
 
-    final imageRef = await ref.getDownloadURL();
-    setState(() {
-      print(imageRef);
-      imageUrl = imageRef.toString();
-    });
+      // Use http client to read the image data.
+      final response = await http.get(Uri.parse(imageRef));
+      if (response.statusCode == 200) {
+        setState(() {
+          imageUrl = imageRef; // Store the image URL directly.
+          // print('*********************************');
+          // print(imageUrl);
+          isLoading = false; // Set loading to false when the image is loaded.
+        });
+      } else {
+        print("Error ${response.statusCode}");
+        // Handle the error appropriately (e.g., show a placeholder image).
+      }
+    } catch (e) {
+      print("Error fetching image: $e");
+      // Handle any exceptions that may occur.
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,7 +99,7 @@ class _DescriptionFieldState extends State<DescriptionField> {
                     Expanded(
                       child: Text(
                         widget.cropDetails,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           height: 1.5,
@@ -98,19 +116,29 @@ class _DescriptionFieldState extends State<DescriptionField> {
             right: 5,
             bottom: 1.5,
             top: 1.5,
-            child: Container(
+            child:
+                isLoading
+                    ? SizedBox(
+                  width: 200,
+                  height: 1.0,
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.grey.shade500,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green.shade500),
+                    value: 0.5,
+                    minHeight: 0.5,
+                  ),
+                ) : // Show a loading indicator while the image is loading.
+                Container(
               height: 200,
               width: 200,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(imageUrl),
-
                   fit: BoxFit.contain,
                 ),
               ),
             ),
           ),
-
         ],
       ),
     );
