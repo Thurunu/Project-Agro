@@ -15,7 +15,8 @@ Future<void> main() async {
   );
 
   await FirebaseAppCheck.instance.activate(
-    webRecaptchaSiteKey: '226E2DFB-39F0-422B-97E7-20589920A3CF',
+
+    // webRecaptchaSiteKey: '226E2DFB-39F0-422B-97E7-20589920A3CF',
     androidProvider: AndroidProvider.debug,
   );
 

@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_algora_2/Body/Pages/plant/crop/crop_field.dart';
 import 'package:project_algora_2/Body/Pages/plant/custom_dropdown_menu.dart';
 import 'package:project_algora_2/Body/Pages/plant/custom_timeline.dart';
 import 'package:project_algora_2/Body/Pages/plant/pick_date.dart';
@@ -13,6 +15,7 @@ class PlantAddingForm extends StatefulWidget {
 }
 
 class _PlantAddingFormState extends State<PlantAddingForm> {
+
   bool selectedOptionPlant = true;
   bool selectedOptionIOT = true;
   int completedStages = 1; // Initialize with the first stage completed
@@ -77,6 +80,13 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
         completedStages++; // Increment the completed stages
       });
     }
+    else
+      Navigator.push(
+        this.context,
+        MaterialPageRoute(
+          builder: (context) => CropField(),
+        ),
+      );
   }
 
   @override
@@ -115,6 +125,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
         height: 60,
         child: ElevatedButton(
           onPressed: () {
+            // printAllDocs();
             moveToNextStage();
           },
           style: ElevatedButton.styleFrom(
