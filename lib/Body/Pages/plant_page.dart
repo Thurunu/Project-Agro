@@ -14,7 +14,7 @@ class _PlantPageState extends State<PlantPage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return const Scaffold(
 
       body: SafeArea(
         child: Stack(
