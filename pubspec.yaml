@@ -59,6 +59,8 @@ dependencies:
   calendar_timeline: ^1.1.2
   overlay_tooltip: ^0.2.3
   drop_shadow_image: ^0.9.1
+  fl_chart: ^0.64.0
+  flutter_custom_clippers: ^2.1.0
 
 
 
@@ -101,6 +103,9 @@ flutter:
      - assets/animations/loading.json
      - assets/animations/tick.json
      - assets/gif/Empty.gif
+     - assets/icons/Plant Icon.webp
+     - assets/icons/Dressing.webp
+     - assets/icons/Watering.webp
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
