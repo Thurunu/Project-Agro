@@ -12,7 +12,7 @@ class CropField extends StatefulWidget {
 }
 
 class _CropFieldState extends State<CropField> {
-  double todayPh = 12.0;
+  double todayPh = 7.0;
   final controller = TextEditingController();
   void initState(){
     super.initState();
@@ -151,6 +151,7 @@ class _CropFieldState extends State<CropField> {
                     ),
                     const SizedBox(height: 16), // Add more spacing
                     const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(Icons.paste),
                         SizedBox(
@@ -159,9 +160,7 @@ class _CropFieldState extends State<CropField> {
                           'History',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
-                          width: 250,
-                        ),
+
                         Icon(Icons.arrow_forward),
                       ],
                     ),
@@ -196,7 +195,7 @@ class _CropFieldState extends State<CropField> {
                         'Planting date', 'Nov 6', '28 days ago'),
                     const SizedBox(height: 16), // Add spacing
                     cropStatus(Image.asset('assets/icons/Dressing.webp'),
-                        'Top dressing', 'Nov 25', '2 days ago'),
+                        '1st dressing', 'Nov 25', '2 days ago'),
                     const SizedBox(height: 16), // Add spacing
                     cropStatus(Image.asset('assets/icons/Watering.webp'),
                         'Watering', 'Nov 23', '1 day ago'),

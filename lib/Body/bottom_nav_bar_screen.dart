@@ -52,8 +52,8 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
           FaIcon(FontAwesomeIcons.microchip), // Bottom navigation item 2 (IOT)
           Icon(Icons.person), // Bottom navigation item 3 (Profile)
         ],
-        color: Colors.blueAccent,
-        backgroundColor: Colors.yellowAccent,
+        color: Colors.green.shade200,
+        backgroundColor: Colors.green.shade50,
         height: 60.0,
         onTap: (int index) {
           setState(() {

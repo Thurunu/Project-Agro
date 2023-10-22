@@ -42,7 +42,7 @@ class _MyBarGraphState extends State<MyBarGraph> {
       } else if (today >= 8 && today <= 14) {
         // Calculate leftSide based on the dividers (5, 2.5, 2, 1.5, 1.4, 1.3, 1.2)
         int dividerIndex =  today.toInt() - 8;
-        num divider = [20, 2.5, 2, 1.5, 1.4, 1.3, 1.2][dividerIndex];
+        num divider = [3.6, 3, 2.5, 1.9, 1.6, 1.3, 1.2][dividerIndex];
         setState(() {
           leftSide = width / divider;
           rightSide = 0;
@@ -59,11 +59,11 @@ class _MyBarGraphState extends State<MyBarGraph> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Column(
+          const Column(
             children: [
-              const Text('Today',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),),
+              Text('Today',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),),
 
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
 

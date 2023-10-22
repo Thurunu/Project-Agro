@@ -13,25 +13,25 @@ class CustomDropDownMenu extends StatefulWidget {
 
 class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
   String selectedValue = 'none';
-  late String userUid;
-FirebaseFirestore ref = FirebaseFirestore.instance;
-final FirebaseAuth auth = FirebaseAuth.instance;
-CollectionReference userCollection = FirebaseFirestore.instance.collection('user_details');
-
-void inputData(){
-  final User? user = auth.currentUser;
-  final uid = user?.uid;
-  userUid = uid!;
-}
-void printAllDocs(){
-  userCollection.doc(userUid).get().then((DocumentSnapshot doc){
-    if(doc.exists)
-      print(doc.data());
-    else
-      print("No any doc");
-  }).catchError((error) {
-    print("Error getting document: $error");
-  });}
+//   late String userUid;
+// FirebaseFirestore ref = FirebaseFirestore.instance;
+// final FirebaseAuth auth = FirebaseAuth.instance;
+// CollectionReference userCollection = FirebaseFirestore.instance.collection('user_details');
+//
+// void inputData(){
+//   final User? user = auth.currentUser;
+//   final uid = user?.uid;
+//   userUid = uid!;
+// }
+// void printAllDocs(){
+//   userCollection.doc(userUid).get().then((DocumentSnapshot doc){
+//     if(doc.exists)
+//       print(doc.data());
+//     else
+//       print("No any doc");
+//   }).catchError((error) {
+//     print("Error getting document: $error");
+//   });}
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ void printAllDocs(){
               ),
               onChanged: (value) {
                 setState(() {
-                  inputData();
-                  printAllDocs();
+                  // inputData();
+                  // printAllDocs();
                   selectedValue = value!; // Update the selected value
                 });
               },

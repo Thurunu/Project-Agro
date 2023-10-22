@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Body/Pages/plant/add_crop_first_time.dart';
 
-import '../../widgets/TextFields/custom_search_bar.dart';
-
 class PlantPage extends StatefulWidget {
   const PlantPage({super.key});
 
@@ -20,7 +18,7 @@ class _PlantPageState extends State<PlantPage> {
         child: Stack(
           children: [
             AddCropFirstTime(),
-            // CustomSearchBar(),
+
           ],
         ),
       ),

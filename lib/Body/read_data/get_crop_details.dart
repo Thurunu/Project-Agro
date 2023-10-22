@@ -7,11 +7,12 @@ class GetCropDetails extends StatefulWidget {
   double screenWidth;
   String documentID;
 
-  GetCropDetails({
+  GetCropDetails({super.key,
     required this.screenWidth,
     required this.documentID,
   });
 
+  @override
   _GetCropDetailsState createState() => _GetCropDetailsState();
 }
 
@@ -45,15 +46,12 @@ class _GetCropDetailsState extends State<GetCropDetails> {
 
         // Print the document IDs
         for (QueryDocumentSnapshot document in documents) {
-          // print('Document ID: ${document.id}');
         }
         final List<String> name =
             documents.map((doc) => doc['name'] as String).toList();
         final List<String> description =
             documents.map((doc) => doc['description'] as String).toList();
 
-        // print(description);
-        // print(name);
 
         return ListView.builder(
           itemCount: documents.length,
