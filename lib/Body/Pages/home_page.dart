@@ -53,14 +53,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
+
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
             children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
+              Padding(
+                padding: EdgeInsets.only(top: screenHeight%50),
+                child: SizedBox(
                   height: 80,
                   child: GestureDetector(
                     onTap: () {
@@ -131,21 +135,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              const Align(
-                alignment: Alignment.topLeft,
-                child: SizedBox(
-                  height: 50,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      "Popular crops in your area",
-                      style: TextStyle(
-                        fontSize: 24.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+               SizedBox(
+                 height: 100,
+                 child: Padding(
+                   padding: EdgeInsets.only(top: screenHeight/20,right: screenWidth/5,bottom: screenHeight%10,),
+                   child: const Text(
+                     "Popular crops in your area",
+                     style: TextStyle(
+                       fontSize: 24.0,
+                     ),
+                   ),
+                 ),
+               ),
               // Place your GetCropDetails widgets here as needed
               GetCropDetails(
                 screenWidth: screenWidth,
@@ -166,60 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              Container(
-                height: 150,
-                width: 150,
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 110,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(50),
-                            topRight: Radius.circular(50),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          ),
-                          color: Colors.purple.shade400,
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Urea',
-                                style: TextStyle(fontSize: 16, color: Colors.black),
-                              ),
-                              Text(
-                                'Additional Text asdfghjgfds',
-                                style: TextStyle(fontSize: 12, color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child:Container(
-                        height: 75,
-                        width: 75,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.transparent,
-                        ),
-                        child: Image.asset('assets/test/Tomato.png'), // Add the image here
-                      )
 
-                    ),
-                  ],
-                ),
-              ),
 
 
             ],

@@ -15,9 +15,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   String userEmail = 'error';
   late String userID;
   final currentUser = FirebaseAuth.instance.currentUser!;
-  CollectionReference userCollection = FirebaseFirestore.instance.collection('user_details');
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('user_details');
   final myController = TextEditingController();
+  final Map<String, dynamic> data = {};
   bool isEdited = false;
+  String selectedOption = 'farmer';
 
   @override
   void initState() {
@@ -37,6 +40,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     super.dispose();
   }
 
+//user sign-out
   void _signOut() {
     FirebaseAuth.instance.signOut();
     Navigator.push(
@@ -47,6 +51,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
+//getting user email
   void _userEmail() {
     if (currentUser != null) {
       String? email = currentUser.email;
@@ -56,20 +61,38 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     } else
       print('error');
   }
-  final Map<String, dynamic> data = {};
-  void updateDB(String name) async {
+
+//change user name
+  void updateName(String name) async {
     String formattedName = capitalizeName(name); // Capitalize the name
     data['name'] = formattedName;
 
     userCollection.doc(userID).set(data).then((value) {
-      print("Document successfully written!");
+      print("User name updated!");
       setState(() {
-        isEdited = false; // Set isEdited to false to hide the button after update
+        isEdited =
+            false; // Set isEdited to false to hide the button after update
       });
     }).catchError((onError) {
       print(onError);
     });
   }
+
+  //change user type
+  void updateType(String type) async {
+    data['user_type'] = type;
+    userCollection.doc(userID).set(data).then((value) {
+      print("User type updated!");
+      setState(() {
+        isEdited =
+            false; // Set isEdited to false to hide the button after update
+      });
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
+
+//capitalize user name first letter
   String capitalizeName(String name) {
     // Split the name into words
     List<String> words = name.split(' ');
@@ -84,13 +107,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     // Join the words back together with a space
     return words.join(' ');
   }
+
+//getting user data from the database
   void getData() async {
     userCollection.doc(userID).get().then((DocumentSnapshot doc) {
       if (doc.exists) {
         String name = doc.get('name');
+        String type = doc.get('user_type');
         myController.text = name; // Set the retrieved name in the text field
         setState(() {
           isEdited = false;
+          selectedOption = type;
         });
       }
     });
@@ -125,61 +152,72 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           },
         ),
         actions: <Widget>[
-          if(isEdited)
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              onPressed: () {
-                updateDB(myController.text);
-                setState(() {
-                  isEdited = false;
-                });
-              },
-              icon: const Icon(
-                Icons.done,
-                color: Colors.blue,
-                size: 30,
+          if (isEdited)
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: IconButton(
+                onPressed: () {
+                  updateName(myController.text);
+                  updateType(selectedOption);
+                  setState(() {
+                    isEdited = false;
+                  });
+                },
+                icon: const Icon(
+                  Icons.done,
+                  color: Colors.blue,
+                  size: 30,
+                ),
               ),
             ),
-          ),
         ],
       ),
       body: SafeArea(
         minimum: EdgeInsets.only(
-          top: screenHeight * 0.15,
+          top: screenHeight * 0.05,
           left: screenWidth * 0.05,
           right: screenWidth * 0.05,
         ),
-        child: ListView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 100,
-              width: 100,
-              child: Image(
-                image: AssetImage('assets/images/user.png'),
+            const Center(
+              //profile picture
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: Image(
+                  image: AssetImage('assets/images/user.png'),
+                ),
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-            const Text(
-              'Edit Profile Picture',
-              style: TextStyle(
-                color: Colors.green,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+            const Center(
+              child: Text(
+                'Edit Profile Picture',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-            Text(
-              userEmail,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+            Center(
+              child: Text(
+                userEmail,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
+            //user name
             Padding(
               padding: const EdgeInsets.only(
                 top: 50.0,
@@ -194,7 +232,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ),
             ),
-            //user name
             Padding(
               padding: EdgeInsets.all(16.0),
               child: TextField(
@@ -209,7 +246,65 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ),
             ),
 
-            //other options
+            //user type
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 20.0,
+                left: 10.0,
+              ),
+              child: Text(
+                'User Type',
+                style: TextStyle(
+                  color: Colors.grey.shade900,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  RadioListTile<String>(
+                    title: const Text('Farmer'),
+                    value: 'farmer',
+                    groupValue: selectedOption,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedOption = value!;
+                        isEdited = true;
+                      });
+
+                    },
+                  ),
+                  RadioListTile<String>(
+                    title: const Text('Seller'),
+                    value: 'seller',
+                    groupValue: selectedOption,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedOption = value!;
+                        isEdited = true;
+                      });
+
+                    },
+                  ),
+                  RadioListTile<String>(
+                    title: const Text('Farmer & Seller'),
+                    value: 'both',
+                    groupValue: selectedOption,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedOption = value!;
+                        isEdited = true;
+                      });
+
+                    },
+                  ),
+                ],
+              ),
+            ),
+
             Padding(
               padding: const EdgeInsets.only(top: 50.0, left: 10.0),
               child: Text(
