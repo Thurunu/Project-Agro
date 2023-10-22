@@ -62,6 +62,10 @@ dependencies:
   fl_chart: ^0.64.0
   flutter_custom_clippers: ^2.1.0
   simple_circular_progress_bar: ^1.0.2
+  maps_launcher: ^2.2.0
+  flutter_downloader: ^1.11.4
+  cached_network_image: ^3.3.0
+  sqflite: ^2.3.0
 
 
 

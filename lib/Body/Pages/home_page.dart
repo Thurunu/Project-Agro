@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_algora_2/Body/location_detect.dart';
 import 'package:project_algora_2/Body/read_data/get_crop_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -159,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "Mostly used fertilizers",
+                      "Popular fertilizer shops in your area",
                       style: TextStyle(
                         fontSize: 24.0,
                       ),
@@ -167,6 +169,43 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+        const Align(
+                alignment: Alignment.topLeft,
+                child: SizedBox(
+                  height: 50,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Recommendations",
+                      style: TextStyle(
+                        fontSize: 24.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 20),
+              //   child: GestureDetector(
+              //     onTap: () async {
+              //       double latitude = 37.7749; // Example latitude
+              //       double longitude = -122.4194; // Example longitude
+              //
+              //       String mapUrl = 'https://maps.google.com/?q=$latitude,$longitude';
+              //
+              //       try {
+              //         await launch(mapUrl);
+              //       } catch (e) {
+              //         print('Error launching map: $e');
+              //       }
+              //     },
+              //     child: Container(
+              //       height: 50,
+              //       width: 50,
+              //       color: Colors.black,
+              //     ),
+              //   ),
 
 
 

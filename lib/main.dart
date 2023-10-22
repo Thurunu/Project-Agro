@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Authentication/loading_screen.dart';
 import 'firebase_options.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -16,9 +17,10 @@ Future<void> main() async {
 
   await FirebaseAppCheck.instance.activate(
 
-    // webRecaptchaSiteKey: '226E2DFB-39F0-422B-97E7-20589920A3CF',
+    // webRecaptchaSiteKey: '6LcwisAoAAAAAK5WLiA4VIIwWUQjsGSuaIuQrUoT',
     androidProvider: AndroidProvider.debug,
   );
+
 
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;

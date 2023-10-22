@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Colors.green.shade50,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Buttons(labelText: 'Shops', iconData: Icons.shopping_bag),
+                    child: Buttons(labelText: 'Shop', iconData: Icons.shopping_bag),
                   ),
                 ),
               ),

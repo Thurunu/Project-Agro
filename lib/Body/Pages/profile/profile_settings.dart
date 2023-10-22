@@ -13,7 +13,7 @@ class ProfileSettings extends StatefulWidget {
 
 class _ProfileSettingsState extends State<ProfileSettings> {
   String userEmail = 'error';
-  late String userID;
+   String userID = 'Not yet';
   final currentUser = FirebaseAuth.instance.currentUser!;
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('user_details');
@@ -178,170 +178,172 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           left: screenWidth * 0.05,
           right: screenWidth * 0.05,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Center(
-              //profile picture
-              child: SizedBox(
-                height: 100,
-                width: 100,
-                child: Image(
-                  image: AssetImage('assets/images/user.png'),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Center(
-              child: Text(
-                'Edit Profile Picture',
-                style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Center(
-              child: Text(
-                userEmail,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            //user name
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 50.0,
-                left: 10.0,
-              ),
-              child: Text(
-                'Name',
-                style: TextStyle(
-                  color: Colors.grey.shade900,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: TextField(
-                controller: myController,
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black38),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                //profile picture
+                child: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: Image(
+                    image: AssetImage('assets/images/user.png'),
                   ),
-                  filled: true,
-                  fillColor: Colors.transparent,
                 ),
               ),
-            ),
-
-            //user type
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 20.0,
-                left: 10.0,
+              const SizedBox(
+                height: 20,
               ),
-              child: Text(
-                'User Type',
-                style: TextStyle(
-                  color: Colors.grey.shade900,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
+              const Center(
+                child: Text(
+                  'Edit Profile Picture',
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  RadioListTile<String>(
-                    title: const Text('Farmer'),
-                    value: 'farmer',
-                    groupValue: selectedOption,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedOption = value!;
-                        isEdited = true;
-                      });
-
-                    },
+              Center(
+                child: Text(
+                  userEmail,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
-                  RadioListTile<String>(
-                    title: const Text('Seller'),
-                    value: 'seller',
-                    groupValue: selectedOption,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedOption = value!;
-                        isEdited = true;
-                      });
-
-                    },
-                  ),
-                  RadioListTile<String>(
-                    title: const Text('Farmer & Seller'),
-                    value: 'both',
-                    groupValue: selectedOption,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedOption = value!;
-                        isEdited = true;
-                      });
-
-                    },
-                  ),
-                ],
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0, left: 10.0),
-              child: Text(
-                'Other Options',
-                style: TextStyle(
-                  color: Colors.grey.shade900,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: GestureDetector(
-                onTap: _signOut,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent, // Initial background color
-                    borderRadius: BorderRadius.circular(
-                        8.0), // Optional: Add rounded corners
+              //user name
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 50.0,
+                  left: 10.0,
+                ),
+                child: Text(
+                  'Name',
+                  style: TextStyle(
+                    color: Colors.grey.shade900,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
                   ),
-                  child: Text(
-                    'Sign out',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.green.shade500,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: TextField(
+                  controller: myController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black38),
+                    ),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                  ),
+                ),
+              ),
+
+              //user type
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 20.0,
+                  left: 10.0,
+                ),
+                child: Text(
+                  'User Type',
+                  style: TextStyle(
+                    color: Colors.grey.shade900,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    RadioListTile<String>(
+                      title: const Text('Farmer'),
+                      value: 'farmer',
+                      groupValue: selectedOption,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedOption = value!;
+                          isEdited = true;
+                        });
+
+                      },
+                    ),
+                    RadioListTile<String>(
+                      title: const Text('Seller'),
+                      value: 'seller',
+                      groupValue: selectedOption,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedOption = value!;
+                          isEdited = true;
+                        });
+
+                      },
+                    ),
+                    RadioListTile<String>(
+                      title: const Text('Farmer & Seller'),
+                      value: 'both',
+                      groupValue: selectedOption,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedOption = value!;
+                          isEdited = true;
+                        });
+
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 50.0, left: 10.0),
+                child: Text(
+                  'Other Options',
+                  style: TextStyle(
+                    color: Colors.grey.shade900,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: GestureDetector(
+                  onTap: _signOut,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent, // Initial background color
+                      borderRadius: BorderRadius.circular(
+                          8.0), // Optional: Add rounded corners
+                    ),
+                    child: Text(
+                      'Sign out',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.green.shade500,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

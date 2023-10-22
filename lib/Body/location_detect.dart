@@ -19,6 +19,8 @@ class LocationDetector extends StatefulWidget {
 
 class _LocationDetectorState extends State<LocationDetector> {
   Position? _currentLocation;
+  late String  latitude;
+  late String longitude;
   late bool servicePermission = false;
   late LocationPermission permission;
   late String location = 'Where are you ?';
