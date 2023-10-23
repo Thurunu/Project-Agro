@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_algora_2/Body/Pages/plant/add_crop_first_time.dart';
 
 class PlantPage extends StatefulWidget {
   const PlantPage({super.key});
@@ -10,8 +11,17 @@ class PlantPage extends StatefulWidget {
 class _PlantPageState extends State<PlantPage> {
   @override
   Widget build(BuildContext context) {
-    return
 
-        Center(child: const Text("Plant Page"));
+    return const Scaffold(
+
+      body: SafeArea(
+        child: Stack(
+          children: [
+            AddCropFirstTime(),
+
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,11 +1,14 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_algora_2/widgets/constants.dart';
 import '../Back/auth_service.dart';
+import '../Body/bottom_nav_bar_screen.dart';
+import '../widgets/Buttons/my_button.dart';
+import '../widgets/TextFields/my_text_field.dart';
+import '../widgets/TextFields/password_text_field.dart';
 import '../widgets/background_circle.dart';
-import '../widgets/my_button.dart';
-import '../widgets/my_text.dart';
-import '../widgets/my_text_field.dart';
+import '../widgets/TextFields/my_text.dart';
 import 'forget_password.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -38,9 +41,18 @@ class _LoginScreenState extends State<LoginScreen> {
         !email.contains('.')) {
       showSnackBarMessage("Please enter a valid email address.");
     } else {
-      loginUserIn();
+      validatePassword();
     }
   }
+
+  void validatePassword() {
+    String password = passwordController.text;
+    if (password.isEmpty)
+      showSnackBarMessage("Please enter your password.");
+    else
+      loginUserIn();
+  }
+
   void showLoadingIndicator() {
     showDialog(
       context: context,
@@ -64,44 +76,34 @@ class _LoginScreenState extends State<LoginScreen> {
         password: passwordController.text,
       );
       hideLoadingIndicator();
+      Navigator.push(
+        this.context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavBarScreen(
+            initialPage: 0,
+          ),
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       hideLoadingIndicator();
       if (e.code == 'user-not-found') {
-        wrongEmailMessage();
+        errorMessage('Incorrect Email');
       } else if (e.code == 'wrong-password') {
-        wrongPasswordMessage();
+        errorMessage('Incorrect Password');
       }
     }
   }
 
-
-  void wrongEmailMessage() {
+  void errorMessage(String text) {
     showDialog(
       context: context,
       builder: (context) {
-        return const AlertDialog(
+        return AlertDialog(
           backgroundColor: Colors.deepPurple,
           title: Center(
             child: Text(
-              'Incorrect Email',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void wrongPasswordMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          backgroundColor: Colors.deepPurple,
-          title: Center(
-            child: Text(
-              'Incorrect Password',
-              style: TextStyle(color: Colors.white),
+              text,
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         );
@@ -113,13 +115,26 @@ class _LoginScreenState extends State<LoginScreen> {
     UserCredential? userCredential = await AuthService.signInWithGoogle();
     if (userCredential != null) {
       // The user is signed in successfully
-      print("Signed in with Google: ${userCredential.user?.displayName}");
-
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              "Signed in with Google: ${userCredential.user!.displayName}"),
+          duration: const Duration(seconds: 3),
+        ),
+      );
       // Navigate to the HomeScreen
-      Navigator.pushReplacementNamed(context, '/home');
+      // Navigator.pushReplacementNamed(context, '/bottom_nav_bar_screen');
+      Navigator.push(
+        this.context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavBarScreen(
+            initialPage: 0,
+          ),
+        ),
+      );
     } else {
       // Sign-in was not successful or was cancelled
-      print("Sign-in with Google was not successful.");
+      errorMessage('Sign-in with Google was not successful.');
 
       // Show an error message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -133,6 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -141,23 +158,27 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 //background decorations
                 Padding(
-                  padding: const EdgeInsets.only(top:150),
+                  padding: const EdgeInsets.only(top: 150),
                   child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: BackgroundCircle(height: 300.0, width: 300.0),
+                    alignment: Alignment.topCenter,
+                    child: BackgroundCircle(
+                        height: screenHeight, width: screenWidth),
                   ),
                 ),
                 //Welcome Text
                 Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 75, bottom: 25),
-                      child: MyText(text: 'Welcome Back', size: 24, color: Color.fromRGBO(27, 94, 32, 0.9), fontWeight: FontWeight.bold,),
-                    ),
-                    //Email textfield
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      padding: const EdgeInsets.only(top: 75, bottom: 25),
+                      child: Text(
+                        'Welcome back',
+                        style: kHeadingTextStyle,
+                      ),
+                    ),
+                    //Email text-field
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 30),
                       child: MyTextField(
                         controller: emailController,
                         hintText: 'example@gmail.com',
@@ -165,36 +186,39 @@ class _LoginScreenState extends State<LoginScreen> {
                         obscureText: false,
                       ),
                     ),
-                    //Password textfield
+                    //Password text-field
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: MyTextField(
-                          controller: passwordController,
-                          hintText: 'password',
-                          labelText: 'Password',
-                          obscureText: true),
+                      child: PasswordTextField(
+                        controller: passwordController,
+                        hintText: 'password',
+                        labelText: 'Password',
+                      ),
                     ),
 
                     //forget password button
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgetPassword()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ForgetPassword(),
+                              ),
+                            );
                           },
-                          child: const Text("I've forget my password"),
+                          child: const Text("Forget Password ?"),
                         ),
                       ),
                     ),
                     //sign in button
                     MyButton(validateEmail, 'Sign In'),
                     const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                       child: Row(
                         children: [
                           Expanded(
@@ -206,7 +230,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           //Divider
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: MyText(text: 'Or Continue With', size: 12, color: Colors.black12, fontWeight: FontWeight.w600),
+                            child: MyText(
+                                text: 'Or Continue With',
+                                size: 12,
+                                color: Colors.black12,
+                                fontWeight: FontWeight.w600),
                           ),
                           Expanded(
                             child: Divider(
@@ -226,8 +254,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: ElevatedButton(
                             onPressed: () => _handleGoogleSignIn(context),
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.white, // Background color
-                              onPrimary: Colors.black, // Text color
+                              backgroundColor: Colors.white, // Background color
+                              foregroundColor: Colors.black, // Text color
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     10.0), // Button border radius
@@ -248,9 +276,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const SizedBox(
                                     width:
                                         10), // Add spacing between the image and text
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Text(
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth / 100),
+                                  child: const Text(
                                     'Continue With Google',
                                     style: TextStyle(
                                       fontSize: 20,
@@ -264,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-              //Move to sign up screen
+                    //Move to sign up screen
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 50),
                       child: Row(

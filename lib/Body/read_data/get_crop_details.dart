@@ -1,42 +1,71 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
-import 'package:project_algora_2/widgets/description_field.dart';
 
-class GetCropDetails extends StatelessWidget {
-  final String doucmentID;
-  final double width;
-  GetCropDetails({
-    super.key,
-    required this.doucmentID,
-    required this.width,
+import '../../widgets/TextFields/description_field.dart';
+
+class GetCropDetails extends StatefulWidget {
+  double screenWidth;
+  String documentID;
+
+  GetCropDetails({super.key,
+    required this.screenWidth,
+    required this.documentID,
   });
 
   @override
+  _GetCropDetailsState createState() => _GetCropDetailsState();
+}
+
+class _GetCropDetailsState extends State<GetCropDetails> {
+  final String collectionID = 'agri_zones';
+
+  @override
   Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('agri_zones')
+          .doc(widget.documentID)
+          .collection('crop')
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LinearProgressIndicator(
+            backgroundColor: Colors.grey[300], // Light gray background
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue), // Blue progress color
+            value: 0.5, // Set the current progress value (between 0 and 1)
+            minHeight: 4.0, // Set the height of the progress bar
+          ); // or a loading indicator
+        }
+
+        // Process the data from the snapshot here
+        final List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
+
+        // Print the document IDs
+        for (QueryDocumentSnapshot document in documents) {
+        }
+        final List<String> name =
+            documents.map((doc) => doc['name'] as String).toList();
+        final List<String> description =
+            documents.map((doc) => doc['description'] as String).toList();
 
 
-    CollectionReference cropDetails = FirebaseFirestore.instance.collection('crop_details');
-    return FutureBuilder<DocumentSnapshot>(
-      future: cropDetails.doc(doucmentID).get(),
-        builder: ((context, snapshot){
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-            String name = data['name'] ?? ''; // Use an empty string as a default value if 'name' is null
-            String description = data['description'] ?? '';
-            String imageUrl = 'assets/test/Tomato.png';// Use an empty string as a default value if 'description' is null
-             // Provide a default image URL
-
+        return ListView.builder(
+          itemCount: documents.length,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
             return DescriptionField(
-              currentWidth: width,
-              cropName: name,
-              cropDetails: description,
-
+              currentWidth: widget.screenWidth,
+              cropName: name[index],
+              cropDetails: description[index],
             );
-          }
-
-          return Text("Loading");
-        }),
+          },
+        );
+      },
     );
   }
 }
