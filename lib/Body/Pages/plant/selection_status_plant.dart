@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_algora_2/Body/Pages/Back/back_end.dart';
 
 class SelectionStatusPlant extends StatefulWidget {
   final Function(bool) onOptionSelected;
@@ -12,6 +13,10 @@ List<String> options = ['Yes', 'No'];
 
 class _SelectionStatusPlantState extends State<SelectionStatusPlant> {
   String currentOption = options[0];
+  // void set(String option){
+  //   BackEnd backend = BackEnd();
+  //   backend.setStatus(option);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +41,7 @@ class _SelectionStatusPlantState extends State<SelectionStatusPlant> {
                     groupValue: currentOption,
                     onChanged: (value) {
                       setState(() {
+                        // set(value!);
                         currentOption = value!; // Set the current option directly
                         widget.onOptionSelected(true); // Call the callback
 
@@ -55,6 +61,7 @@ class _SelectionStatusPlantState extends State<SelectionStatusPlant> {
                       onChanged: (value) {
                         setState(
                           () {
+                            // set(value!);
                             currentOption = value!; // Set the current option directly
                             widget.onOptionSelected(false); // Call the callback
 

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class PickDate extends StatelessWidget {
   bool plantedOnot;
-  PickDate({required this.plantedOnot, super.key});
+  final Function(DateTime) dateSelected;
+  PickDate({required this.plantedOnot, super.key, required this.dateSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +41,9 @@ class PickDate extends StatelessWidget {
                       return AlertDialog(
                         alignment: Alignment(1.0, 0.325),
                         backgroundColor: Colors.green.withOpacity(0.5),
-                        title: Text(plantedOnot ? text1 : text2,
+                        title: Text(
+                          plantedOnot ? text1 : text2,
                           style: TextStyle(color: Colors.white),
-
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -61,13 +62,16 @@ class PickDate extends StatelessWidget {
               initialDate: day,
               firstDate: firstDate,
               lastDate: lastDate,
-              onDateSelected: (date) => print(date),
+
+              onDateSelected: (date) {
+                dateSelected(date);
+              },
               leftMargin: screenWidth / 6,
               shrink: false,
               monthColor: Colors.blue,
               dayColor: Colors.teal[200],
               activeDayColor: Colors.white,
-              activeBackgroundDayColor: Colors.redAccent[100],
+              activeBackgroundDayColor: Colors.redAccent[400],
               dotsColor: const Color(0xFF333A47),
               // selectableDayPredicate: (date) => date.day != 0,
               locale: 'en_ISO',

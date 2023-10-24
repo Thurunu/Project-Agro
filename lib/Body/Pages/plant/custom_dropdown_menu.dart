@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../Back/back_end.dart';
+
 class CustomDropDownMenu extends StatefulWidget {
-  const CustomDropDownMenu({super.key});
+  final Function(String) onSelectedPlant;
+  const CustomDropDownMenu({super.key, required this.onSelectedPlant});
 
   String get getSelectedValue => getSelectedValue;
 
@@ -13,25 +16,11 @@ class CustomDropDownMenu extends StatefulWidget {
 
 class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
   String selectedValue = 'none';
-//   late String userUid;
-// FirebaseFirestore ref = FirebaseFirestore.instance;
-// final FirebaseAuth auth = FirebaseAuth.instance;
-// CollectionReference userCollection = FirebaseFirestore.instance.collection('user_details');
-//
-// void inputData(){
-//   final User? user = auth.currentUser;
-//   final uid = user?.uid;
-//   userUid = uid!;
+
+// void set(String value){
+//   BackEnd backend = BackEnd();
+// backend.setCropName(value);
 // }
-// void printAllDocs(){
-//   userCollection.doc(userUid).get().then((DocumentSnapshot doc){
-//     if(doc.exists)
-//       print(doc.data());
-//     else
-//       print("No any doc");
-//   }).catchError((error) {
-//     print("Error getting document: $error");
-//   });}
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +38,9 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
               ),
               onChanged: (value) {
                 setState(() {
-                  // inputData();
-                  // printAllDocs();
+                  // set(value!);
                   selectedValue = value!; // Update the selected value
+                  widget.onSelectedPlant(value);
                 });
               },
               items: const [

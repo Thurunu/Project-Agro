@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_algora_2/Body/Pages/Back/back_end.dart';
 import 'package:project_algora_2/Body/Pages/plant/crop/crop_field.dart';
 import 'package:project_algora_2/Body/Pages/plant/custom_dropdown_menu.dart';
 import 'package:project_algora_2/Body/Pages/plant/custom_timeline.dart';
 import 'package:project_algora_2/Body/Pages/plant/pick_date.dart';
 import 'package:project_algora_2/Body/Pages/plant/selection_status_iot.dart';
 import 'package:project_algora_2/Body/Pages/plant/selection_status_plant.dart';
+import 'package:project_algora_2/Body/Pages/plant/user_plant_list.dart';
 
 class PlantAddingForm extends StatefulWidget {
   const PlantAddingForm({super.key});
@@ -16,20 +18,48 @@ class PlantAddingForm extends StatefulWidget {
 
 class _PlantAddingFormState extends State<PlantAddingForm> {
 
+  BackEnd be = BackEnd();
+
   bool selectedOptionPlant = true;
   bool selectedOptionIOT = true;
   int completedStages = 1; // Initialize with the first stage completed
   double divider = 2.5;
+  DateTime dateTime = DateTime.now();
+  String cropName = 'None';
+  void initState(){
+    super.initState();
+    // be.addDataToSubcollection(
+    //     {
+    //   "name": "Potato",
+    //       "planted_data" : "12,12,2023",
+    //       "iot" : "yes",
+    //       "number_of_plants" : "10",
+    //       "reference_no" : "",
+    // });
+  }
+  void handleSelectedDateTime(DateTime date){
+    setState(() {
+      dateTime = date;
+    });
+    be.setDate(date);
+
+  }
   void handleOptionSelectedPlant(bool option) {
     setState(() {
       selectedOptionPlant = option;
     });
-    print(selectedOptionPlant);
+    be.setStatus(option);
+
   }void handleOptionSelectedIOT(bool option) {
     setState(() {
       selectedOptionIOT = option;
     });
-    print(selectedOptionIOT);
+    be.setIOT(option);
+  }void handleSelectedPlant(String name) {
+    setState(() {
+      cropName = name;
+    });
+    be.setCropName(name);
   }
 
   List<Widget> buildTimeLine() {
@@ -39,7 +69,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
         isFirst: true,
         isLast: false,
         isPast: completedStages >= 1,
-        eventCard: const CustomDropDownMenu(),
+        eventCard:  CustomDropDownMenu(onSelectedPlant: handleSelectedPlant,),
       ),
       CustomTimeLine(
         isFirst: false,
@@ -53,7 +83,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
         isFirst: false,
         isLast: false,
         isPast: completedStages >= 3,
-        eventCard: PickDate(plantedOnot: selectedOptionPlant,),
+        eventCard: PickDate(plantedOnot: selectedOptionPlant, dateSelected: handleSelectedDateTime,),
       ),
       CustomTimeLine(
         isFirst: false,
@@ -80,13 +110,15 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
         completedStages++; // Increment the completed stages
       });
     }
-    else
+    else {
+      be.addDataToSubcollection();
       Navigator.push(
         this.context,
         MaterialPageRoute(
-          builder: (context) => CropField(),
+          builder: (context) => UserPlantList(),
         ),
       );
+    }
   }
 
   @override
@@ -125,7 +157,6 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
         height: 60,
         child: ElevatedButton(
           onPressed: () {
-            // printAllDocs();
             moveToNextStage();
           },
           style: ElevatedButton.styleFrom(
