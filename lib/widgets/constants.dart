@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,6 +7,7 @@ const kDarkBlack = Color(0xff000000);
 const kBrilliantWhite = Color(0xffffffff);
 const kRegularGreen = Color(0xff204525);
 const kLightGreen = Color(0xff35743E);
+const bool kDebugMode = !kReleaseMode && !kProfileMode;
 
 
 //TextStyles

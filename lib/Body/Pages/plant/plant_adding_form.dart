@@ -8,6 +8,7 @@ import 'package:project_algora_2/Body/Pages/plant/pick_date.dart';
 import 'package:project_algora_2/Body/Pages/plant/selection_status_iot.dart';
 import 'package:project_algora_2/Body/Pages/plant/selection_status_plant.dart';
 import 'package:project_algora_2/Body/Pages/plant/user_plant_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PlantAddingForm extends StatefulWidget {
   const PlantAddingForm({super.key});
@@ -19,7 +20,7 @@ class PlantAddingForm extends StatefulWidget {
 class _PlantAddingFormState extends State<PlantAddingForm> {
 
   BackEnd be = BackEnd();
-
+  bool isThisUserFirstUse = false;
   bool selectedOptionPlant = true;
   bool selectedOptionIOT = true;
   int completedStages = 1; // Initialize with the first stage completed
@@ -28,14 +29,14 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
   String cropName = 'None';
   void initState(){
     super.initState();
-    // be.addDataToSubcollection(
-    //     {
-    //   "name": "Potato",
-    //       "planted_data" : "12,12,2023",
-    //       "iot" : "yes",
-    //       "number_of_plants" : "10",
-    //       "reference_no" : "",
-    // });
+
+  }
+  Future<void> loadUserFirstUseStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool firstUse = prefs.getBool('isThisUserFirstUse') ?? true;
+    setState(() {
+      isThisUserFirstUse = firstUse;
+    });
   }
   void handleSelectedDateTime(DateTime date){
     setState(() {
@@ -103,7 +104,13 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
     return visibleTimelineItems;
   }
 
-  void moveToNextStage() {
+  void moveToNextStage()  {
+    if(isThisUserFirstUse) {
+      be.addDataToSubcollection('default');
+      setState(() {
+        isThisUserFirstUse = true;
+      });
+    }
     if (completedStages < 4) {
       setState(() {
         divider = divider * 2.75;
@@ -111,7 +118,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
       });
     }
     else {
-      be.addDataToSubcollection();
+      be.addDataToSubcollection('done');
       Navigator.push(
         this.context,
         MaterialPageRoute(
