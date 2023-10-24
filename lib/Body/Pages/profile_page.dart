@@ -1,37 +1,45 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Body/Pages/profile/profile_settings.dart';
 import '../../widgets/Buttons/buttons.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String username = 'No Name';
+
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  CollectionReference userCollection = FirebaseFirestore.instance.collection('user_details');
 
 
+  void initState(){
+    super.initState();
+    getData();
+  }
+  void getData() async {
+    final uid = currentUser?.uid;
+
+    userCollection.doc(uid).get().then((DocumentSnapshot doc) {
+      if (doc.exists) {
+        String name = doc.get('name');
+        setState(() {
+          username = name;
+        });
+
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    // return Center(
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     crossAxisAlignment: CrossAxisAlignment.center,
-    //     children: [
-    //       const Text("Profile Page"),
-    //       Padding(
-    //         padding: const EdgeInsets.all(8.0),
-    //         child: ElevatedButton(onPressed: () async{
-    //
-    //             try {
-    //               await FirebaseAuth.instance.signOut();
-    //             } catch (e) {
-    //               print('Error signing out: $e');
-    //
-    //           }
-    //         }, child: Text("Sign Out")),
-    //       ),
-    //     ],
-    //   ),
-    // );
+
 
     return Scaffold(
       body: SafeArea(
@@ -62,12 +70,12 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10.0, top: 10.0),
+                   Padding(
+                    padding: const EdgeInsets.only(left: 10.0, top: 10.0),
                     child: Center(
                       child: Text(
-                        'User Name',
-                        style: TextStyle(
+                        username,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
                         ),
@@ -117,7 +125,7 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.green.shade50,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Buttons(labelText: 'Shops', iconData: Icons.shopping_bag),
+                    child: Buttons(labelText: 'Shop', iconData: Icons.shopping_bag),
                   ),
                 ),
               ),

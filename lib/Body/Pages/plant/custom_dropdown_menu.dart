@@ -1,7 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../Back/back_end.dart';
+
 class CustomDropDownMenu extends StatefulWidget {
-  const CustomDropDownMenu({super.key});
+  final Function(String) onSelectedPlant;
+  const CustomDropDownMenu({super.key, required this.onSelectedPlant});
+
+  String get getSelectedValue => getSelectedValue;
 
   @override
   State<CustomDropDownMenu> createState() => _CustomDropDownMenuState();
@@ -10,11 +17,14 @@ class CustomDropDownMenu extends StatefulWidget {
 class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
   String selectedValue = 'none';
 
+// void set(String value){
+//   BackEnd backend = BackEnd();
+// backend.setCropName(value);
+// }
+
   @override
   Widget build(BuildContext context) {
-    return
-
-      Center(
+    return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -28,7 +38,9 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
               ),
               onChanged: (value) {
                 setState(() {
+                  // set(value!);
                   selectedValue = value!; // Update the selected value
+                  widget.onSelectedPlant(value);
                 });
               },
               items: const [

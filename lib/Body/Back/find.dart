@@ -7,6 +7,10 @@ class Find {
     required this.longitude,
   });
 
+double getLatitude() => latitude;
+double getLongitude() => longitude;
+
+
   String findAgriculturalZone() {
     // Define approximate latitude and longitude ranges for each zone
     final wetZoneLatRange = [6, 8];

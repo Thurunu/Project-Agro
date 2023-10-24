@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 
 class DescriptionField extends StatefulWidget {
   final String cropName;
@@ -117,27 +119,65 @@ class _DescriptionFieldState extends State<DescriptionField> {
             bottom: 1.5,
             top: 1.5,
             child:
-                isLoading
-                    ? SizedBox(
-                  width: 200,
-                  height: 1.0,
-                  child: LinearProgressIndicator(
-                    backgroundColor: Colors.grey.shade500,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green.shade500),
-                    value: 0.5,
-                    minHeight: 0.5,
+            // isLoading
+            //     ? Padding(
+            //         padding: const EdgeInsets.only(left: 25, bottom: 5),
+            //         child: SimpleCircularProgressBar(
+            //           size: 50,
+            //           // valueNotifier: valueNotifier,
+            //           progressStrokeWidth: 16,
+            //           backStrokeWidth: 0,
+            //           animationDuration: 2,
+            //           mergeMode: true,
+            //           onGetText: (value) {
+            //             return Text(
+            //               '${value.toInt()}',
+            //               // style: centerTextStyle,
+            //             );
+            //           },
+            //           progressColors: [
+            //             Colors.green.shade400,
+            //             Colors.green.shade800
+            //           ],
+            //           backColor: Colors.black.withOpacity(0.4),
+            //         ),
+            //       )
+            //     : // Show a loading indicator while the image is loading.
+                CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    imageBuilder: (context, imageProvider) => Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(imageUrl),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) => Padding(
+                      padding: EdgeInsets.only(left: 25, bottom: 5),
+                      child: SimpleCircularProgressBar(
+                        // valueNotifier: valueNotifier,
+                        progressStrokeWidth: 16,
+                        backStrokeWidth: 0,
+                        animationDuration: 2,
+                        mergeMode: true,
+                        onGetText: (value) {
+                          return Text(
+                            '${value.toInt()}',
+                            // style: centerTextStyle,
+                          );
+                        },
+                        progressColors: [
+                          Colors.green.shade400,
+                          Colors.green.shade800
+                        ],
+                        backColor: Colors.black.withOpacity(0.4),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                ) : // Show a loading indicator while the image is loading.
-                Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
           ),
         ],
       ),

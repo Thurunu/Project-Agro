@@ -29,19 +29,29 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, // Prevent content from resizing when the keyboard appears
-      body: PageView(
-        controller: _pageController,
-        children: const <Widget>[
-          HomeScreen(), // First page (index 0)
-          PlantPage(), // Second page (index 1)
-          IOTPage(),   // Third page (index 2)
-          ProfilePage(), // Fourth page (index 3)
-        ],
-        onPageChanged: (int index) {
-          setState(() {
-            _page = index; // Update the current page index
-          });
-        },
+      body: SingleChildScrollView(
+
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
+              child: PageView(
+                controller: _pageController,
+                children: const <Widget>[
+                  HomeScreen(), // First page (index 0)
+                  PlantPage(), // Second page (index 1)
+                  IOTPage(),   // Third page (index 2)
+                  ProfilePage(), // Fourth page (index 3)
+                ],
+                onPageChanged: (int index) {
+                  setState(() {
+                    _page = index; // Update the current page index
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: CurvedNavigationBar(
         animationCurve: Curves.fastLinearToSlowEaseIn,
@@ -52,8 +62,8 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
           FaIcon(FontAwesomeIcons.microchip), // Bottom navigation item 2 (IOT)
           Icon(Icons.person), // Bottom navigation item 3 (Profile)
         ],
-        color: Colors.blueAccent,
-        backgroundColor: Colors.yellowAccent,
+        color: Colors.green.shade200,
+        backgroundColor: Colors.green.shade50,
         height: 60.0,
         onTap: (int index) {
           setState(() {

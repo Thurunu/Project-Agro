@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Back/back_end.dart';
+
 class SelectionStatusIOT extends StatefulWidget {
   final Function(bool) onOptionSelected;
   const SelectionStatusIOT({super.key, required this.onOptionSelected});
@@ -12,6 +14,10 @@ List<String> options = ['Yes', 'No'];
 
 class _SelectionStatusIOTState extends State<SelectionStatusIOT> {
   String currentOption = options[0];
+  // void set(String option){
+  //   BackEnd backend = BackEnd();
+  //   backend.setStatus(option);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +42,7 @@ class _SelectionStatusIOTState extends State<SelectionStatusIOT> {
                     groupValue: currentOption,
                     onChanged: (value) {
                       setState(() {
+                        // set(value!);
                         currentOption = value!; // Set the current option directly
                         widget.onOptionSelected(true); // Call the callback
 
@@ -55,7 +62,8 @@ class _SelectionStatusIOTState extends State<SelectionStatusIOT> {
                       onChanged: (value) {
                         setState(
                               () {
-                            currentOption = value!; // Set the current option directly
+                                // set(value!);
+                                currentOption = value!; // Set the current option directly
                             widget.onOptionSelected(false); // Call the callback
 
                           },
