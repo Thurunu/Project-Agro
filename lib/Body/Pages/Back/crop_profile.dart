@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CropProfile extends StatefulWidget {
-  String date;
+  DateTime date;
   String name;
   String imageUrl;
-   CropProfile({super.key,required this.name,required this.date, required this.imageUrl});
+  String docId;
+  String dateStatus;
+   CropProfile({super.key,required this.name,required this.date, required this.imageUrl, required this.docId,required this.dateStatus});
 
   @override
   State<CropProfile> createState() => _CropProfileState();
@@ -15,6 +17,8 @@ class _CropProfileState extends State<CropProfile> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+
+
     return Scaffold(
       body: Stack(
         fit: StackFit.loose,
@@ -35,7 +39,7 @@ class _CropProfileState extends State<CropProfile> {
                 bottomRight: Radius.circular(200),
               ),
             ),
-            child:  Padding(
+            child: Padding(
               padding: const EdgeInsets.only(left: 15, top: 10, right: 75),
               child: Column(
                 children: [
@@ -52,8 +56,7 @@ class _CropProfileState extends State<CropProfile> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-
-                      Text(widget.date),
+                      Text(widget.dateStatus,style: TextStyle(color: Colors.black),), // Display the date status
                     ],
                   ),
                 ],
@@ -61,25 +64,27 @@ class _CropProfileState extends State<CropProfile> {
             ),
           ),
           Positioned(
-              left: 230,
-              right: 0,
-              bottom: 0,
-              top: 0,
-              child: Container(
-                width: screenWidth / 3.5,
-                height: screenHeight / 3.5,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(widget.imageUrl),
-                      fit: BoxFit.contain),
-                  shape: BoxShape.circle,
-                  color: Colors.green.shade50,
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 5.0,
-                  ),
+            left: 230,
+            right: 0,
+            bottom: 0,
+            top: 0,
+            child: Container(
+              width: screenWidth / 3.5,
+              height: screenHeight / 3.5,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(widget.imageUrl),
+                  fit: BoxFit.contain,
                 ),
-              )),
+                shape: BoxShape.circle,
+                color: Colors.green.shade50,
+                border: Border.all(
+                  color: Colors.white,
+                  width: 5.0,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

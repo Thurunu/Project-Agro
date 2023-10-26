@@ -104,9 +104,6 @@ class BackEnd {
       DocumentSnapshot documentSnapshot = await userCollection.doc(documentId).get();
 
       if (documentSnapshot.exists) {
-        // result['Document ID'] = documentSnapshot.id;
-        // result['Data'] = documentSnapshot.data();
-
         // Access the specific subcollection
         CollectionReference subCollection = documentSnapshot.reference.collection('crops');
 
@@ -119,19 +116,17 @@ class BackEnd {
               ? (doc['planted_data'] as Timestamp).toDate()
               : DateTime.now(); // Assuming 'planted_data' is a Timestamp field
 
+          // Add the subcollection document ID to the data
           cropsData.add({
+            'documentId': doc.id, // Add the document ID here
             'name': name,
             'planted_data': day,
           });
-
-          // print('Subcollection Data: ${doc.data()}\n');
-          // print('Subcollection Data crop name: $name\n');
-          // print('Subcollection Data planted date: $day\n');
         });
 
         result['Crops'] = cropsData;
-        print('\n\ncrops data\n\n');
-        print(cropsData);
+        // print('\n\ncrops data\n\n');
+        // print(cropsData);
       }
     } catch (e) {
       print("Error in getCropData: $e");
@@ -139,6 +134,7 @@ class BackEnd {
 
     return result;
   }
+
 
   //set crop name
   void setCropName(String name) {

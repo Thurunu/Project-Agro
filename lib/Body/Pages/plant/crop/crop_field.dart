@@ -5,40 +5,65 @@ import 'package:project_algora_2/Body/Pages/plant/crop/crop_status.dart';
 import 'package:project_algora_2/Body/Pages/plant/crop/recommendations.dart';
 
 class CropField extends StatefulWidget {
-  const CropField({super.key});
+  String name;
+  String imageUrl;
+  int day;
+  DateTime plantedDate;
+  CropField(
+      {super.key,
+      required this.name,
+      required this.imageUrl,
+      required this.day,
+      required this.plantedDate,});
 
   @override
   State<CropField> createState() => _CropFieldState();
 }
 
 class _CropFieldState extends State<CropField> {
+  String date = '';
   double todayPh = 7.0;
   final controller = TextEditingController();
-  void initState(){
+  void initState() {
     super.initState();
+    check();
+  }
+  void check(){
+    if(widget.day < 0)
+      setState(() {
+        date = (-widget.day).toString() + ' days ago';
+      });
+    else if(widget.day == 0)
+      setState(() {
+        date = 'Today';
+      });
   }
 
-  Future openBox() =>
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Input PH'),
-            content: TextField(
-              controller: controller,
-              decoration: InputDecoration(hintText: 'PH value'),
+  Future openBox() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Input PH'),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(hintText: 'PH value'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: submit,
+              child: Text('Submit'),
             ),
-            actions: [
-              TextButton(onPressed: submit, child: Text('Submit'),),
-            ],
-          ),);
+          ],
+        ),
+      );
 
-  void submit(){
+  void submit() {
     setState(() {
       todayPh = double.parse(controller.text);
     });
     print(todayPh);
     Navigator.of(context).pop();
   }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -48,7 +73,11 @@ class _CropFieldState extends State<CropField> {
       appBar: AppBar(
         backgroundColor: Colors.white, // Change the app bar color to white
         foregroundColor: Colors.black,
-        title: const Center(child: Text('Tomato',style: TextStyle(fontWeight: FontWeight.bold),)),
+        title: Center(
+            child: Text(
+          widget.name,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )),
         actions: [
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
@@ -76,7 +105,6 @@ class _CropFieldState extends State<CropField> {
           )
         ],
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
@@ -91,14 +119,11 @@ class _CropFieldState extends State<CropField> {
               Container(
                 width: screenWidth - 40,
                 height: screenHeight / 5,
-                child: DropShadowImage(
-                  image: Image.asset(
-                    'assets/test/Tomato.png',
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(widget.imageUrl),
+                    fit: BoxFit.contain,
                   ),
-                  borderRadius: 20,
-                  blurRadius: 20,
-                  offset: const Offset(5, 5),
-                  scale: 0.9,
                 ),
               ),
               // Soil moisture details
@@ -124,7 +149,7 @@ class _CropFieldState extends State<CropField> {
                     ),
 
                     const Padding(
-                      padding: EdgeInsets.only(top: 3,left: 8),
+                      padding: EdgeInsets.only(top: 3, left: 8),
                       child: Text(
                         'Last update today at 11.00 a.m',
                         style: TextStyle(
@@ -140,9 +165,8 @@ class _CropFieldState extends State<CropField> {
                         height: screenHeight / 10,
                         width: screenWidth - 60,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.black12
-                        ),
+                            borderRadius: BorderRadius.circular(50),
+                            color: Colors.black12),
                         child: MyBarGraph(
                           screenWidth: screenWidth,
                           todayPh: todayPh,
@@ -192,7 +216,7 @@ class _CropFieldState extends State<CropField> {
                     ),
                     const SizedBox(height: 16), // Add spacing
                     cropStatus(Image.asset('assets/icons/Plant Icon.webp'),
-                        'Planting date', 'Nov 6', '28 days ago'),
+                        'Planting date', 'Nov 6', date),
                     const SizedBox(height: 16), // Add spacing
                     cropStatus(Image.asset('assets/icons/Dressing.webp'),
                         '1st dressing', 'Nov 25', '2 days ago'),
@@ -209,10 +233,13 @@ class _CropFieldState extends State<CropField> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Recommendations',style: TextStyle(
-                  fontSize: 20, // Adjust the font size as needed
-                  fontWeight: FontWeight.bold, // Make it bold
-                ),),
+                        const Text(
+                          'Recommendations',
+                          style: TextStyle(
+                            fontSize: 20, // Adjust the font size as needed
+                            fontWeight: FontWeight.bold, // Make it bold
+                          ),
+                        ),
                         TextButton(
                           onPressed: () {},
                           child: const Text('see more'),
@@ -223,23 +250,35 @@ class _CropFieldState extends State<CropField> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          recommendations('Planting',
-                              "Transplant the seedling to the field14-18 days after sowing.",screenHeight,screenWidth),
+                          recommendations(
+                              'Planting',
+                              "Transplant the seedling to the field14-18 days after sowing.",
+                              screenHeight,
+                              screenWidth),
                           const SizedBox(
                             width: 10,
                           ),
-                          recommendations('Fertilizing',
-                              "Mix 10 t/ha of well decomposed organic matter with the soil of selected field.",screenHeight,screenWidth),
+                          recommendations(
+                              'Fertilizing',
+                              "Mix 10 t/ha of well decomposed organic matter with the soil of selected field.",
+                              screenHeight,
+                              screenWidth),
                           const SizedBox(
                             width: 10,
                           ),
-                          recommendations('Watering',
-                              "Don’t apply excess water specially in dry season. It causes fruit crack.",screenHeight,screenWidth),
+                          recommendations(
+                              'Watering',
+                              "Don’t apply excess water specially in dry season. It causes fruit crack.",
+                              screenHeight,
+                              screenWidth),
                           SizedBox(
                             width: 10,
                           ),
-                          recommendations('Watering',
-                              "Don’t apply excess water specially in dry season. It causes fruit crack.",screenHeight,screenWidth),
+                          recommendations(
+                              'Watering',
+                              "Don’t apply excess water specially in dry season. It causes fruit crack.",
+                              screenHeight,
+                              screenWidth),
                         ],
                       ),
                     ),
