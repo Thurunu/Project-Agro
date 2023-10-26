@@ -1,16 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:http/http.dart';
 
 class BackEnd {
   String cropName = 'default'; // Initialize with an empty string
   bool status = false; // Initialize with an empty string
   DateTime date = DateTime.now(); // Initialize with the current date and time
   bool iot = false; // Initialize with an empty string
-
+  String imageUrl = '';
   final FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('user_details');
+  final storage = FirebaseStorage.instance;
 
+
+  //get user id
   String _getCurrentUserUid() {
     final User? currentUser = _auth.currentUser;
     if (currentUser != null) {
@@ -20,7 +25,7 @@ class BackEnd {
   }
 
   //validate collection
-  Future<bool> isSecondSubcollectionEmpty() async {
+  Future<bool> isSecondSubCollectionEmpty() async {
     String documentId = _getCurrentUserUid();
     try {
       DocumentSnapshot documentSnapshot = await userCollection.doc(documentId).get();
@@ -41,35 +46,100 @@ class BackEnd {
     }
   }
 
-//print data on subcollection
-  Future<void> printSpecificUserDataAndSubcollection(
-      String subcollectionName) async {
-    String documentId = _getCurrentUserUid();
+  //check subCollection length
+  Future<int> getLength() async {
+    String documentId = _getCurrentUserUid(); // Make sure this function returns the correct UID.
+    int dataLength = 0;
     try {
-      DocumentSnapshot documentSnapshot =
-          await userCollection.doc(documentId).get();
-
+      DocumentSnapshot documentSnapshot = await userCollection.doc(documentId).get();
       if (documentSnapshot.exists) {
-        print("Document ID: ${documentSnapshot.id}");
-        print("Data: ${documentSnapshot.data()}");
-
-        // Access the specific subcollection
-        CollectionReference subCollection =
-            documentSnapshot.reference.collection(subcollectionName);
-
-        QuerySnapshot subCollectionSnapshot = await subCollection.get();
-        for (QueryDocumentSnapshot subDoc in subCollectionSnapshot.docs) {
-          print("Subdocument ID: ${subDoc.id}");
-          print("Subdocument Data: ${subDoc.data()}");
-        }
+        CollectionReference subCollection = documentSnapshot.reference.collection('crops');
+        QuerySnapshot querySnapshot = await subCollection.get();
+        dataLength = querySnapshot.size;
       } else {
         print("Document with ID $documentId does not exist.");
       }
     } catch (e) {
       print("Error accessing data: $e");
-
     }
+    return dataLength;
   }
+
+//get image urls
+  Future<String> getImageUrl(String cropName) async {
+    try {
+      // Get the image from Firebase Storage.
+      final ref = storage.ref().child("crops/$cropName.webp");
+      final imageRef = await ref.getDownloadURL();
+
+      // Use http client to read the image data.
+      final response = await get(Uri.parse(imageRef));
+      if (response.statusCode == 200) {
+
+          imageUrl = imageRef; // Store the image URL directly.
+          // print('*********************************');
+          // print(imageUrl);
+          return imageUrl;
+
+      } else {
+        print("Error ${response.statusCode}");
+        // Handle the error appropriately (e.g., show a placeholder image).
+      }
+    } catch (e) {
+      print("Error fetching image: $e");
+      // Handle any exceptions that may occur.
+    }
+    return imageUrl;
+  }
+
+
+//print data on subcollection
+  Future<Map<String, dynamic>> getCropData() async {
+    String documentId = _getCurrentUserUid();
+    String name;
+    DateTime day;
+    Map<String, dynamic> result = {};
+
+    try {
+      DocumentSnapshot documentSnapshot = await userCollection.doc(documentId).get();
+
+      if (documentSnapshot.exists) {
+        // result['Document ID'] = documentSnapshot.id;
+        // result['Data'] = documentSnapshot.data();
+
+        // Access the specific subcollection
+        CollectionReference subCollection = documentSnapshot.reference.collection('crops');
+
+        QuerySnapshot subCollectionSnapshot = await subCollection.get();
+        List<Map<String, dynamic>> cropsData = [];
+
+        subCollectionSnapshot.docs.forEach((doc) {
+          name = doc['name'] ?? '';
+          day = doc['planted_data'] != null
+              ? (doc['planted_data'] as Timestamp).toDate()
+              : DateTime.now(); // Assuming 'planted_data' is a Timestamp field
+
+          cropsData.add({
+            'name': name,
+            'planted_data': day,
+          });
+
+          // print('Subcollection Data: ${doc.data()}\n');
+          // print('Subcollection Data crop name: $name\n');
+          // print('Subcollection Data planted date: $day\n');
+        });
+
+        result['Crops'] = cropsData;
+        print('\n\ncrops data\n\n');
+        print(cropsData);
+      }
+    } catch (e) {
+      print("Error in getCropData: $e");
+    }
+
+    return result;
+  }
+
   //set crop name
   void setCropName(String name) {
     cropName = name;

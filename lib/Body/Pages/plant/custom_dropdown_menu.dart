@@ -17,10 +17,7 @@ class CustomDropDownMenu extends StatefulWidget {
 class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
   String selectedValue = 'none';
 
-// void set(String value){
-//   BackEnd backend = BackEnd();
-// backend.setCropName(value);
-// }
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +35,6 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
               ),
               onChanged: (value) {
                 setState(() {
-                  // set(value!);
                   selectedValue = value!; // Update the selected value
                   widget.onSelectedPlant(value);
                 });

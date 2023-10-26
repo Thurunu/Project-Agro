@@ -1,4 +1,5 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
+import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 
 class PickDate extends StatelessWidget {
@@ -8,6 +9,7 @@ class PickDate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DatePickerController _controller = DatePickerController();
     double screenWidth = MediaQuery.of(context).size.width;
     DateTime now = DateTime.now();
     DateTime day = DateTime(now.year, now.month, now.day);
@@ -56,26 +58,26 @@ class PickDate extends StatelessWidget {
               ),
             ],
           ),
-          Align(
-            alignment: Alignment(0.0, 2.5),
-            child: CalendarTimeline(
-              initialDate: day,
-              firstDate: firstDate,
-              lastDate: lastDate,
-
-              onDateSelected: (date) {
+          Padding(
+            padding: EdgeInsets.only(top: 50),
+            child: DatePicker(
+             firstDate,  // Minimum date (restricts how far back the user can select a date)
+              width: 60,
+              height: 80,
+              controller: _controller,
+              initialSelectedDate: DateTime.now(),  // Initial date to display
+              selectionColor: Colors.black,
+              selectedTextColor: Colors.white,
+              inactiveDates: [
+                DateTime.now().add(Duration(days: 3)),
+                DateTime.now().add(Duration(days: 4)),
+                DateTime.now().add(Duration(days: 7)),
+              ],
+              onDateChange: (date) {
+                // New date selected
+                print(date);
                 dateSelected(date);
               },
-              leftMargin: screenWidth / 6,
-              shrink: false,
-              monthColor: Colors.blue,
-              dayColor: Colors.teal[200],
-              activeDayColor: Colors.white,
-              activeBackgroundDayColor: Colors.redAccent[400],
-              dotsColor: const Color(0xFF333A47),
-              // selectableDayPredicate: (date) => date.day != 0,
-              locale: 'en_ISO',
-              showYears: true,
             ),
           ),
         ],

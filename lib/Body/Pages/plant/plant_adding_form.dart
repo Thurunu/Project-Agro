@@ -8,6 +8,8 @@ import 'package:project_algora_2/Body/Pages/plant/pick_date.dart';
 import 'package:project_algora_2/Body/Pages/plant/selection_status_iot.dart';
 import 'package:project_algora_2/Body/Pages/plant/selection_status_plant.dart';
 import 'package:project_algora_2/Body/Pages/plant/user_plant_list.dart';
+import 'package:project_algora_2/Body/Pages/plant_page.dart';
+import 'package:project_algora_2/Body/bottom_nav_bar_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlantAddingForm extends StatefulWidget {
@@ -27,9 +29,21 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
   double divider = 2.5;
   DateTime dateTime = DateTime.now();
   String cropName = 'None';
+  int subcollectionNumber = 0;
   void initState(){
     super.initState();
+    loadUserFirstUseStatus();
+    loadSubcollectionNumber(); // Load the last saved number
+  }
+  Future<void> loadSubcollectionNumber() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    subcollectionNumber = prefs.getInt('subcollectionNumber') ?? 0;
+  }
 
+  Future<void> updateSubcollectionNumber() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    subcollectionNumber++;
+    prefs.setInt('subcollectionNumber', subcollectionNumber);
   }
   Future<void> loadUserFirstUseStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -106,7 +120,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
 
   void moveToNextStage()  {
     if(isThisUserFirstUse) {
-      be.addDataToSubcollection('default');
+      // be.addDataToSubcollection('default');
       setState(() {
         isThisUserFirstUse = true;
       });
@@ -118,11 +132,12 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
       });
     }
     else {
-      be.addDataToSubcollection('done');
+      be.addDataToSubcollection('$cropName$subcollectionNumber'); // Use the generated number
+      updateSubcollectionNumber(); // Update the number for the next use
       Navigator.push(
         this.context,
         MaterialPageRoute(
-          builder: (context) => UserPlantList(),
+          builder: (context) => BottomNavBarScreen(initialPage: 1),
         ),
       );
     }

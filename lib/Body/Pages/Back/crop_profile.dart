@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
-class CropProfile extends StatelessWidget {
-  const CropProfile({super.key});
+class CropProfile extends StatefulWidget {
+  String date;
+  String name;
+  String imageUrl;
+   CropProfile({super.key,required this.name,required this.date, required this.imageUrl});
 
+  @override
+  State<CropProfile> createState() => _CropProfileState();
+}
+
+class _CropProfileState extends State<CropProfile> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -27,13 +35,13 @@ class CropProfile extends StatelessWidget {
                 bottomRight: Radius.circular(200),
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.only(left: 15, top: 10, right: 75),
+            child:  Padding(
+              padding: const EdgeInsets.only(left: 15, top: 10, right: 75),
               child: Column(
                 children: [
                   Text(
-                    "Crop Name",
-                    style: TextStyle(
+                    widget.name,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -41,18 +49,11 @@ class CropProfile extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  // Text(
-                  //   'Description',
-                  //   style: TextStyle(
-                  //     fontSize: 14,
-                  //     fontWeight: FontWeight.w400,
-                  //     height: 1.5,
-                  //   ),
-                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text("Notification :"),
+
+                      Text(widget.date),
                     ],
                   ),
                 ],
@@ -68,8 +69,8 @@ class CropProfile extends StatelessWidget {
                 width: screenWidth / 3.5,
                 height: screenHeight / 3.5,
                 decoration: BoxDecoration(
-                  image: const DecorationImage(
-                      image: AssetImage('assets/test/Tomato.png'),
+                  image: DecorationImage(
+                      image: NetworkImage(widget.imageUrl),
                       fit: BoxFit.contain),
                   shape: BoxShape.circle,
                   color: Colors.green.shade50,
