@@ -13,7 +13,7 @@ class UserPlantList extends StatefulWidget {
 
 class _UserPlantListState extends State<UserPlantList> {
   List<Map<String, dynamic>> cropDataList = [];
-  String image = '';
+  Map<String, String> imageMap = {}; // Map to store image URLs
   BackEnd backend = BackEnd();
 
   @override
@@ -31,10 +31,15 @@ class _UserPlantListState extends State<UserPlantList> {
       String error = cropData['Error'];
       print("Error: $error");
     }
-  }
 
-  Future<void> imageData(String name) async {
-    image = await backend.getImageUrl(name);
+    // Fetch image URLs for all crop items
+    for (final cropItem in cropDataList) {
+      final name = cropItem['name'] ?? '';
+      final imageUrl = await backend.getImageUrl(name);
+      imageMap[name] = imageUrl;
+
+      setState(() {}); // Trigger a UI update after each image is loaded
+    }
   }
 
   @override
@@ -63,47 +68,19 @@ class _UserPlantListState extends State<UserPlantList> {
                 final formattedDate = plantedData != null
                     ? "${plantedData.day}-${plantedData.month}-${plantedData.year}"
                     : '';
-
-                return FutureBuilder<void>(
-                  future: imageData(name),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10, left: 20, right: 20, bottom: 10),
-                        child: Container(
-                            width: screenWidth - 20,
-                            height: screenHeight / 6,
-                            child: CropProfile(
-                                name: name,
-                                date: formattedDate,
-                                imageUrl: image)),
-                      );
-                    } else {
-                      // You can return a loading indicator or placeholder here if needed.
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SimpleCircularProgressBar(
-                          // valueNotifier: valueNotifier,
-                          progressStrokeWidth: 16,
-                          backStrokeWidth: 0,
-                          animationDuration: 2,
-                          mergeMode: true,
-                          onGetText: (value) {
-                            return Text(
-                              '${value.toInt()}',
-                              // style: centerTextStyle,
-                            );
-                          },
-                          progressColors: [
-                            Colors.green.shade400,
-                            Colors.green.shade800
-                          ],
-                          backColor: Colors.black.withOpacity(0.4),
-                        ),
-                      ); // Example loading indicator.
-                    }
-                  },
+                final imageUrl = imageMap[name];
+                return Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, left: 20, right: 20, bottom: 10),
+                    child: Container(
+                      width: screenWidth - 20,
+                      height: screenHeight / 6,
+                      child: CropProfile(
+                        name: name,
+                        date: formattedDate,
+                        imageUrl: imageUrl ?? '', // Use the fetched image URL
+                      ),
+                    ),
                 );
               },
             ),
@@ -114,3 +91,8 @@ class _UserPlantListState extends State<UserPlantList> {
     );
   }
 }
+
+
+
+
+
