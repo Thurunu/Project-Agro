@@ -9,6 +9,7 @@ class BackEnd {
   DateTime date = DateTime.now(); // Initialize with the current date and time
   bool iot = false; // Initialize with an empty string
   String imageUrl = '';
+  int numberOfCrops = 1;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('user_details');
@@ -159,6 +160,10 @@ class BackEnd {
     this.iot = iot;
     print(iot);
   }
+  // set number of crops
+  void setNumber(int numberOfCrops){
+    this.numberOfCrops = numberOfCrops;
+  }
 
 // Add data to a subcollection within a specific document
   Future<void> addDataToSubcollection(String docId) async {
@@ -167,6 +172,7 @@ class BackEnd {
       'planted_data': date,
       'iot': iot,
       'status': status,
+      'number_of_crops': numberOfCrops,
     };
 
     String documentId = _getCurrentUserUid();

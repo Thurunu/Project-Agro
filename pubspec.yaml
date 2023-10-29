@@ -68,6 +68,7 @@ dependencies:
   sqflite: ^2.3.0
   firebase_messaging: ^14.7.2
   date_picker_timeline: ^1.2.5
+  numberpicker: ^2.1.2
 
 
 

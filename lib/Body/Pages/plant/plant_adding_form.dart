@@ -1,14 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Body/Pages/Back/back_end.dart';
-import 'package:project_algora_2/Body/Pages/plant/crop/crop_field.dart';
 import 'package:project_algora_2/Body/Pages/plant/custom_dropdown_menu.dart';
 import 'package:project_algora_2/Body/Pages/plant/custom_timeline.dart';
+import 'package:project_algora_2/Body/Pages/plant/how_many.dart';
 import 'package:project_algora_2/Body/Pages/plant/pick_date.dart';
 import 'package:project_algora_2/Body/Pages/plant/selection_status_iot.dart';
 import 'package:project_algora_2/Body/Pages/plant/selection_status_plant.dart';
-import 'package:project_algora_2/Body/Pages/plant/user_plant_list.dart';
-import 'package:project_algora_2/Body/Pages/plant_page.dart';
 import 'package:project_algora_2/Body/bottom_nav_bar_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,10 +23,12 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
   bool selectedOptionPlant = true;
   bool selectedOptionIOT = true;
   int completedStages = 1; // Initialize with the first stage completed
-  double divider = 2.5;
+  double divider = 2;
   DateTime dateTime = DateTime.now();
   String cropName = 'None';
   int subcollectionNumber = 0;
+  int numberSelected = 1;
+  @override
   void initState(){
     super.initState();
     loadUserFirstUseStatus();
@@ -58,6 +57,13 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
     });
     be.setDate(date);
 
+  }
+  void handleSelectedNumber(int number){
+    setState(() {
+      numberSelected = number;
+      print(number);
+    });
+    be.setNumber(number);
   }
   void handleOptionSelectedPlant(bool option) {
     setState(() {
@@ -102,12 +108,19 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
       ),
       CustomTimeLine(
         isFirst: false,
-        isLast: true,
+        isLast: false,
         isPast: completedStages >= 4,
+        eventCard: HowMany(numberSelected: handleSelectedNumber,),
+      ),
+      CustomTimeLine(
+        isFirst: false,
+        isLast: true,
+        isPast: completedStages >= 5,
         eventCard: SelectionStatusIOT(
           onOptionSelected: handleOptionSelectedIOT,
         ),
       ),
+
     ];
     // Filter the items based on the completed stages
     final visibleTimelineItems = timelineItems
@@ -125,7 +138,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
         isThisUserFirstUse = true;
       });
     }
-    if (completedStages < 4) {
+    if (completedStages < 5) {
       setState(() {
         divider = divider * 2.75;
         completedStages++; // Increment the completed stages

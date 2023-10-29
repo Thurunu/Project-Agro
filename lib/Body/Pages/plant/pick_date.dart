@@ -1,4 +1,3 @@
-import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +11,8 @@ class PickDate extends StatelessWidget {
     DatePickerController _controller = DatePickerController();
     double screenWidth = MediaQuery.of(context).size.width;
     DateTime now = DateTime.now();
-    DateTime day = DateTime(now.year, now.month, now.day);
     DateTime firstDate = DateTime.now().subtract(const Duration(days: 30));
-    DateTime lastDate = DateTime.now().add(const Duration(days: 365));
+    int length = 30;
 
     final text1 = 'Description 1';
     final text2 = 'Description 2';
@@ -61,21 +59,18 @@ class PickDate extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 50),
             child: DatePicker(
-             firstDate,  // Minimum date (restricts how far back the user can select a date)
+             plantedOnot ? firstDate : now ,  // Minimum date (restricts how far back the user can select a date)
               width: 60,
               height: 80,
               controller: _controller,
-              initialSelectedDate: DateTime.now(),  // Initial date to display
+              initialSelectedDate: now,  // Initial date to display
+              daysCount: length,
               selectionColor: Colors.black,
               selectedTextColor: Colors.white,
-              inactiveDates: [
-                DateTime.now().add(Duration(days: 3)),
-                DateTime.now().add(Duration(days: 4)),
-                DateTime.now().add(Duration(days: 7)),
-              ],
+
               onDateChange: (date) {
                 // New date selected
-                print(date);
+
                 dateSelected(date);
               },
             ),
