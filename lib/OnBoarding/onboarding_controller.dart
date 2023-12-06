@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Back/login_or_signup.dart';
 import 'intro_page_1.dart';
@@ -30,6 +31,7 @@ class _OnBoardingControllerState extends State<OnBoardingController> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
         children: [
@@ -45,61 +47,117 @@ class _OnBoardingControllerState extends State<OnBoardingController> {
               IntroPage4(),
             ],
           ),
-      ],
-    ),
-          // Dot indicators
-          bottomSheet: isLastPage
-              ? TextButton(
-            onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              prefs.setBool('showHome', true);
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => LoginOrSignup()), // Make sure HomePage is defined
-              );
-            },
-            child: const Text("Get Started"),
-          )
-              : Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () => _controller.jumpToPage(2), // Corrected controller variable
-                  child: const Text('SKIP'),
-                ),
-                Center(
-                  child: SmoothPageIndicator(
-                    controller: _controller, // Corrected controller variable
-                    count: 3,
-                    effect: WormEffect(
-                      spacing: 16,
-                      dotColor: Colors.black26,
-                      activeDotColor: Colors.teal.shade700,
+        ],
+      ),
+      // Dot indicators
+      bottomSheet: isLastPage
+          ? Container(
+              height: 65,
+              width: screenWidth,
+              color: Color.fromRGBO(32, 69, 37, 1),
+              child: TextButton(
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setBool('showHome', true);
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            LoginOrSignup()), // Make sure HomePage is defined
+                  );
+                },
+                style: ButtonStyle(
+                  side: MaterialStateProperty.all(
+                    BorderSide(
+                      width: 2.0,
+                      color: Colors.green,
                     ),
-                    onDotClicked: (index) =>
-                        _controller.animateToPage(
-                          index,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease,
+                  ),
+                ),
+                child: const Text(
+                  "Get Started",
+                  style: TextStyle(fontSize: 20, color: Color.fromRGBO(255, 255, 255, 0.8)),
+                ),
+              ),
+            )
+          : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      _controller.previousPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    },
+                    style: ButtonStyle(
+                      side: MaterialStateProperty.all(
+                        BorderSide(
+                          width: 2.0,
+                          color: Colors.green,
                         ),
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              20.0), // Adjust the radius as needed
+                        ),
+                      ),
+                      // You can customize the border width, color, and other properties
+                    ),
+                    child: Text(
+                      'Previous',
+                      style: TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.w600),
+                    ),
                   ),
-                ),
-                TextButton(
-                  onPressed: () => _controller.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.ease,
+                  Center(
+                    child: SmoothPageIndicator(
+                      controller: _controller, // Corrected controller variable
+                      count: 3,
+                      effect: WormEffect(
+                        spacing: 16,
+                        dotColor: Colors.black26,
+                        activeDotColor: Colors.teal.shade700,
+                      ),
+                      onDotClicked: (index) => _controller.animateToPage(
+                        index,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      ),
+                    ),
                   ),
-                  child: const Text('NEXT'),
-                ),
-              ],
+                  TextButton(
+                    onPressed: () {
+                      _controller.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    },
+                    style: ButtonStyle(
+                      side: MaterialStateProperty.all(
+                          BorderSide(width: 2.0, color: Colors.green)),
+                      // You can customize the border width, color, and other properties
+
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              20.0), // Adjust the radius as needed
+                        ),
+                      ),
+                    ), // You can customize the border width, color, and other properties
+
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.w600),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-
-
-
-
     );
   }
 }
