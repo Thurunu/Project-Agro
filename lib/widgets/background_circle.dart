@@ -19,7 +19,7 @@ class BackgroundCircle extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Color.fromRGBO(52, 168, 83, 0.25),
-            blurRadius: 150.0,
+            blurRadius: 300.0,
             spreadRadius: 75.0,
           ),
         ],

@@ -63,14 +63,9 @@ class _ChoiceState extends State<Choice> {
                 String uid = snapshot.data!;
                 return Container(
                   height: MediaQuery.of(context).size.height,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/background_1.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Padding(
                           padding: EdgeInsets.only(top: 75, left: 20),
@@ -82,14 +77,16 @@ class _ChoiceState extends State<Choice> {
                           )),
                       const Padding(
                           padding:
-                              EdgeInsets.only(top: 15, left: 20, bottom: 30),
+                              EdgeInsets.only(top: 35, left: 25, bottom: 30),
                           child: MyText(
-                              text: "Don't Worry this can be changed later",
-                              size: 14,
-                              color: Color.fromRGBO(27, 94, 32, 0.9),
+                              text: "Don't Worry! "
+                                  "This can be changed later.",
+                              size: 18,
+                              color: Color.fromRGBO(27, 94, 32, 0.7),
                               fontWeight: FontWeight.w500)),
                       MyButton(() => usersData(uid, 'farmer'), 'Farmer'),
                       MyButton(() => usersData(uid, 'seller'), 'Seller'),
+                      MyButton(() => usersData(uid, 'Farmer & Seller'), 'Farmer & Seller'),
                     ],
                   ),
                 );

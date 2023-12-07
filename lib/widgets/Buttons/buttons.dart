@@ -15,14 +15,14 @@ class Buttons extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: Colors.green.withOpacity(0.7), // Border color with opacity
+              color: Colors.transparent, // Border color with opacity
               width: 2, // Border width
             ),
           ),
           child: Icon(iconData),
         ),
         SizedBox(width: 20), // Add spacing between the icon and text
-        Text(labelText, style: TextStyle(fontSize: 24,fontWeight: FontWeight.w500),),
+        Text(labelText, style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
       ],
     );
 

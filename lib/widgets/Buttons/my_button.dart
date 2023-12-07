@@ -9,7 +9,7 @@ class MyButton extends StatelessWidget {
   Widget build(context) {
 
     return Padding(
-      padding: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 25, left: 19),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
         child: SizedBox(

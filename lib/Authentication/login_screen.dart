@@ -212,7 +212,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           },
-                          child: const Text("Forget Password ?"),
+                          child: const Text(
+                            "Forget Password ?",
+                            style: TextStyle(fontSize: 16,
+                              color: Color.fromRGBO(0, 128, 0, 1),
+                              letterSpacing: 1.5, // Adjust the letter spacing as needed
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -313,8 +319,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: widget.onTap,
                             child: const Text(
                               '\tRegister now',
-                              style: TextStyle(
-                                color: Colors.blue,
+                              style: TextStyle(fontSize: 18,
+                                color: Color.fromRGBO(0, 128, 128, 0.6),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

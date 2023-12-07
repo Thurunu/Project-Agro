@@ -29,21 +29,23 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       ),
       decoration: InputDecoration(
         hintText: widget.hintText,
+        hintStyle: TextStyle(color: Colors.green[300]),
         labelText: widget.labelText,
-        filled: true,
-        fillColor: Colors.grey[200],
+        labelStyle: TextStyle(color: Colors.green, fontSize: 20,fontWeight:FontWeight.w500),
+    filled: true,
+        fillColor: Colors.green[100],
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none, // This will hide the default border
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.lightBlueAccent),
+          borderSide: BorderSide(color: Color.fromRGBO(0, 128, 0, 0.7)),
         ),
         suffixIcon: IconButton(
           icon: Icon(
             obscureText ? Icons.visibility : Icons.visibility_off,
-            color: Colors.grey,
+            color: Colors.green,
           ),
           onPressed: () {
             setState(() {

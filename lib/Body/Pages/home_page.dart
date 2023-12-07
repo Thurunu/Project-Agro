@@ -143,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                    child: const Text(
                      "Popular crops in your area",
                      style: TextStyle(
-                       fontSize: 24.0,
+                       fontSize: 24.0, fontWeight: FontWeight.w500, color: Color.fromRGBO(32, 69, 37, 0.7)
                      ),
                    ),
                  ),

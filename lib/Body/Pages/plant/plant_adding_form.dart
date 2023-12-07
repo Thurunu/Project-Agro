@@ -176,15 +176,24 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(52, 168, 83, 0.3),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-            top: screenHeight / divider,
-            left: screenWidth * 0.025,
-            right: screenWidth * 0.025),
-        child: ListView(
-          children: buildTimeLine(),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color.fromRGBO(52, 168, 83, 0.4), Color.fromRGBO(172, 213, 178, 0.4)], // Adjust the colors as needed
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: screenHeight / divider,
+              left: screenWidth * 0.025,
+              right: screenWidth * 0.025),
+          child: ListView(
+            children: buildTimeLine(),
+          ),
         ),
       ),
       floatingActionButton: SizedBox(
@@ -199,7 +208,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50.0), // Remove border radius
             ),
-            primary: Colors.black,
+            primary: Color.fromRGBO(32, 69, 37, 0.8),
           ),
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

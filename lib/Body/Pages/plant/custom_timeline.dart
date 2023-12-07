@@ -23,14 +23,14 @@ class CustomTimeLine extends StatelessWidget {
         isFirst: isFirst,
         isLast: isLast,
         beforeLineStyle: LineStyle(
-          color: isPast ? Colors.deepPurple : Colors.deepPurple.shade100,
+          color: isPast ? Color.fromRGBO(0, 128, 128, 0.6) : Color.fromRGBO(0, 128, 128, 0.6),
         ),
         indicatorStyle: IndicatorStyle(
           width: 40,
-          color: isPast ? Colors.deepPurple : Colors.deepPurple.shade100,
+          color: isPast ? Color.fromRGBO(0, 128, 128, 1) :Color.fromRGBO(0, 128, 128, 0.6),
           iconStyle: IconStyle(
             iconData: isPast ? Icons.done : Icons.do_not_disturb_on,
-            color: isPast ? Colors.white : Colors.deepPurple.shade100,
+            color: isPast ? Colors.white : Color.fromRGBO(0, 128, 0, 1),
           ),
         ),
         endChild: Padding(

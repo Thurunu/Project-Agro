@@ -24,10 +24,10 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
             DropdownButton<String>(
               value: selectedValue,
               padding: const EdgeInsets.all(20.0),
-              style: const TextStyle(color: Colors.deepPurple),
+              style: const TextStyle(color: Color.fromRGBO(0, 128, 128, 1)),
               underline: Container(
                 height: 2,
-                color: Colors.deepPurpleAccent,
+                color: Color.fromRGBO(0, 128, 128, 0.7),
               ),
               onChanged: (value) {
                 setState(() {
@@ -38,7 +38,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
               items: const [
                 DropdownMenuItem(
                   value: 'none',
-                  child: Text('Select Crop'),
+                  child: Text('Select Crop',style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),),
                 ),DropdownMenuItem(
                   value: 'Tomato',
                   child: Text('Tomato '),
