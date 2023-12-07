@@ -65,7 +65,6 @@ class _ImagePreviewScreenState extends State<ImagePreviewScreen> {
               backend.setImageAddress(widget.imagePath);
               backend.uploadImageToFirebase();
               backend.setFertilizerName(widget.fertilizerName);
-              // print(selectedImage);
             },
             icon: const Icon(Icons.done),
           ),
