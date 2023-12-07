@@ -17,7 +17,7 @@ class _UserPlantListState extends State<UserPlantList> {
   BackEnd backend = BackEnd();
   bool isRefreshing = false;
   DateTime cropDate = DateTime.now();
-   String dateStatus = '';
+  String dateStatus = '';
 
   @override
   void initState() {
@@ -92,7 +92,7 @@ class _UserPlantListState extends State<UserPlantList> {
       } else {
         dateStatus = 'Planted Date: ${-daysDifference} days ago';
       }
-print(dateStatus);
+      print(dateStatus);
       setState(() {}); // Update the UI after refreshing
     }
   }
@@ -155,7 +155,8 @@ print(dateStatus);
                           name: name,
                           date: plantedData,
                           imageUrl: imageUrl ?? '',
-                          docId: documentId, dateStatus: dateStatus, // Use the fetched image URL
+                          docId: documentId,
+                          dateStatus: dateStatus, // Use the fetched image URL
                         ),
                       ),
                     ),

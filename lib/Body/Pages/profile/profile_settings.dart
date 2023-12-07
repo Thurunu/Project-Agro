@@ -58,6 +58,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       userEmail = email!;
       final uid = currentUser?.uid;
       userID = uid!;
+      print(userID);
     } else
       print('error');
   }

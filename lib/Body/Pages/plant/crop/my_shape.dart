@@ -10,6 +10,7 @@ class MyShape extends CustomClipper<Path>{
 
     path.close();
     return path;
+
   }
 
   @override

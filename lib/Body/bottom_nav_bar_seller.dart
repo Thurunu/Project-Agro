@@ -1,20 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'Pages/home_page.dart';
-import 'Pages/iot_page.dart';
-import 'Pages/plant_page.dart';
+import 'package:project_algora_2/Seller/add_fertilizer.dart';
+import 'package:project_algora_2/Seller/seller_home.dart';
 import 'Pages/profile_page.dart';
 
-class BottomNavBarScreen extends StatefulWidget {
+class BottomNavBarSeller extends StatefulWidget {
   final int initialPage;
-  const BottomNavBarScreen({super.key, required this.initialPage});
+  const BottomNavBarSeller({super.key, required this.initialPage});
 
   @override
-  State<BottomNavBarScreen> createState() => _BottomNavBarScreenState();
+  State<BottomNavBarSeller> createState() => _BottomNavBarSellerState();
 }
 
-class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
+class _BottomNavBarSellerState extends State<BottomNavBarSeller> {
   int _page = 0; // Initialize page index to 0 (Home)
   late PageController _pageController;
 
@@ -33,14 +32,13 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
 
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height - kBottomNavigationBarHeight,
               child: PageView(
                 controller: _pageController,
                 children: const <Widget>[
-                  HomeScreen(), // First page (index 0)
-                  PlantPage(), // Second page (index 1)
-                  IOTPage(),   // Third page (index 2)
+                  SellerHome(), // First page (index 0)
+                  AddFertilizers(),
                   ProfilePage(), // Fourth page (index 3)
                 ],
                 onPageChanged: (int index) {
@@ -56,10 +54,9 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
       bottomNavigationBar: CurvedNavigationBar(
         animationCurve: Curves.fastLinearToSlowEaseIn,
         index: _page, // Set the selected index based on the current page
-        items: const <Widget>[
+        items:  const <Widget>[
           Icon(Icons.home), // Bottom navigation item 0 (Home)
-          FaIcon(FontAwesomeIcons.leaf), // Bottom navigation item 1 (Plant)
-          FaIcon(FontAwesomeIcons.microchip), // Bottom navigation item 2 (IOT)
+          Icon(CupertinoIcons.plus_circle_fill,size: 50,),
           Icon(Icons.person), // Bottom navigation item 3 (Profile)
         ],
         color: Colors.green.shade200,

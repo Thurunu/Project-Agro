@@ -1,5 +1,6 @@
 import 'package:drop_shadow_image/drop_shadow_image.dart';
 import 'package:flutter/material.dart';
+import 'package:project_algora_2/Body/Pages/Back/crop_field_back.dart';
 import 'package:project_algora_2/Body/Pages/plant/crop/bar_graph.dart';
 import 'package:project_algora_2/Body/Pages/plant/crop/crop_status.dart';
 import 'package:project_algora_2/Body/Pages/plant/crop/recommendations.dart';
@@ -9,12 +10,13 @@ class CropField extends StatefulWidget {
   String imageUrl;
   int day;
   DateTime plantedDate;
-  CropField(
-      {super.key,
-      required this.name,
-      required this.imageUrl,
-      required this.day,
-      required this.plantedDate,});
+  CropField({
+    super.key,
+    required this.name,
+    required this.imageUrl,
+    required this.day,
+    required this.plantedDate,
+  });
 
   @override
   State<CropField> createState() => _CropFieldState();
@@ -23,34 +25,48 @@ class CropField extends StatefulWidget {
 class _CropFieldState extends State<CropField> {
   String date = '';
   double todayPh = 7.0;
+  int feedingDate = 0;
   final controller = TextEditingController();
+  CropFieldBackEnd backEnd = CropFieldBackEnd();
+  @override
   void initState() {
     super.initState();
-    check();
+    updateDate(); // Rename to reflect the action
+    fetchDataAndUpdate(); // This will fetch data once and update the state
   }
-  void check(){
-    if(widget.day < 0)
+
+  void updateDate() {
+    if (widget.day < 0) {
+      date = '${-widget.day} days ago';
+    } else if (widget.day == 0) {
+      date = 'Today';
+    }
+    // No need for setState here since initState hasn't completed yet
+  }
+
+  Future<void> fetchDataAndUpdate() async {
+    await backEnd.fetchData(widget.name.toLowerCase(), widget.plantedDate);
+    // Only call setState if there's new data to update
+    if (mounted) { // Check if the widget is still in the tree
       setState(() {
-        date = (-widget.day).toString() + ' days ago';
+        feedingDate = -1*(backEnd.getFeedDay());
+        // any other state updates
       });
-    else if(widget.day == 0)
-      setState(() {
-        date = 'Today';
-      });
+    }
   }
 
   Future openBox() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Input PH'),
+          title: const Text('Input PH'),
           content: TextField(
             controller: controller,
-            decoration: InputDecoration(hintText: 'PH value'),
+            decoration: const InputDecoration(hintText: 'PH value'),
           ),
           actions: [
             TextButton(
               onPressed: submit,
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
           ],
         ),
@@ -219,7 +235,7 @@ class _CropFieldState extends State<CropField> {
                         'Planting date', 'Nov 6', date),
                     const SizedBox(height: 16), // Add spacing
                     cropStatus(Image.asset('assets/icons/Dressing.webp'),
-                        '1st dressing', 'Nov 25', '2 days ago'),
+                        '1st dressing', 'Nov 25', '$feedingDate days to go'),
                     const SizedBox(height: 16), // Add spacing
                     cropStatus(Image.asset('assets/icons/Watering.webp'),
                         'Watering', 'Nov 23', '1 day ago'),

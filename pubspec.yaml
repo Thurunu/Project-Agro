@@ -69,6 +69,10 @@ dependencies:
   firebase_messaging: ^14.7.2
   date_picker_timeline: ^1.2.5
   numberpicker: ^2.1.2
+  camera: ^0.10.5+5
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  image_picker: ^1.0.4
 
 
 
