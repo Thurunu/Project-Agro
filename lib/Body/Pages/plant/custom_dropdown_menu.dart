@@ -1,8 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../Back/back_end.dart';
 
 class CustomDropDownMenu extends StatefulWidget {
   final Function(String) onSelectedPlant;
@@ -17,10 +13,7 @@ class CustomDropDownMenu extends StatefulWidget {
 class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
   String selectedValue = 'none';
 
-// void set(String value){
-//   BackEnd backend = BackEnd();
-// backend.setCropName(value);
-// }
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +31,6 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
               ),
               onChanged: (value) {
                 setState(() {
-                  // set(value!);
                   selectedValue = value!; // Update the selected value
                   widget.onSelectedPlant(value);
                 });
@@ -56,25 +48,18 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
                   child: Text('Chili'),
                 ),
                 DropdownMenuItem(
-                  value: 'Cucumber',
-                  child: Text('Cucumber'),
+                  value: 'Potato',
+                  child: Text('Potato'),
                 ),
                 DropdownMenuItem(
                   value: 'Carrot',
                   child: Text('Carrot'),
                 ),
                 DropdownMenuItem(
-                  value: 'Lettuce',
-                  child: Text('Lettuce'),
+                  value: 'Capsicum',
+                  child: Text('Capsicum'),
                 ),
-                DropdownMenuItem(
-                  value: 'Onion',
-                  child: Text('Onion'),
-                ),
-                DropdownMenuItem(
-                  value: 'Pepper',
-                  child: Text('Pepper'),
-                ),
+
               ],
               isExpanded: true,
             ),

@@ -19,7 +19,9 @@ class _PlantPageState extends State<PlantPage> {
     super.initState();
 
     BackEnd backend = BackEnd();
-    validate = backend.isSecondSubcollectionEmpty();
+    validate = backend.isSecondSubCollectionEmpty();
+    // backend.getCropData();
+
     validate.then((value) {
       if (value) {
         set();
@@ -42,9 +44,9 @@ class _PlantPageState extends State<PlantPage> {
         child: Stack(
           children: [
             if (isThisUserFirstUse)
-              AddCropFirstTime()
+              const AddCropFirstTime()
             else
-              UserPlantList(), // This part should be replaced with another widget
+              const UserPlantList(), // This part should be replaced with another widget
           ],
         ),
       ),

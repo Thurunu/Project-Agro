@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:project_algora_2/Body/Pages/Back/back_end.dart';
-import 'package:project_algora_2/Body/Pages/plant/custom_dropdown_menu.dart';
 import 'package:project_algora_2/Body/Pages/plant/custom_timeline.dart';
-import 'package:project_algora_2/Body/Pages/plant/how_many.dart';
-import 'package:project_algora_2/Body/Pages/plant/pick_date.dart';
-import 'package:project_algora_2/Body/Pages/plant/selection_status_iot.dart';
-import 'package:project_algora_2/Body/Pages/plant/selection_status_plant.dart';
-import 'package:project_algora_2/Body/bottom_nav_bar_screen.dart';
+import 'package:project_algora_2/Body/bottom_nav_bar_seller.dart';
+import 'package:project_algora_2/Seller/fertilizer_back/fertilizer_backend.dart';
+import 'package:project_algora_2/Seller/fertilizer_back/fertilizer_name.dart';
+import 'package:project_algora_2/Seller/fertilizer_back/fertlizer_nutrients.dart';
+import 'package:project_algora_2/Seller/fertilizer_back/open_camera.dart';
+import 'package:project_algora_2/Seller/fertilizer_back/quantity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'fertilizer_price.dart';
 
-class PlantAddingForm extends StatefulWidget {
-  const PlantAddingForm({super.key});
+class FertilizerAddingForm extends StatefulWidget {
+  const FertilizerAddingForm({super.key});
 
   @override
-  State<PlantAddingForm> createState() => _PlantAddingFormState();
+  State<FertilizerAddingForm> createState() => _FertilizerAddingFormState();
 }
 
-class _PlantAddingFormState extends State<PlantAddingForm> {
+class _FertilizerAddingFormState extends State<FertilizerAddingForm> {
 
-  BackEnd be = BackEnd();
+  FertilizerBackend backend = FertilizerBackend();
+
   bool isThisUserFirstUse = false;
-  bool selectedOptionPlant = true;
   bool selectedOptionIOT = true;
   int completedStages = 1; // Initialize with the first stage completed
   double divider = 2;
-  DateTime dateTime = DateTime.now();
-  String cropName = 'None';
+  double fertilizerPrice = 0.0;
+  String fertilzerName = 'None';
   int subcollectionNumber = 0;
   int numberSelected = 1;
+  int nitrogen = 0;
+  int phosphorus = 0;
+  int potassium = 0;
+
   @override
   void initState(){
     super.initState();
-    loadUserFirstUseStatus();
+    // loadUserFirstUseStatus();
     loadSubcollectionNumber(); // Load the last saved number
   }
   Future<void> loadSubcollectionNumber() async {
@@ -44,43 +48,52 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
     subcollectionNumber++;
     prefs.setInt('subcollectionNumber', subcollectionNumber);
   }
-  Future<void> loadUserFirstUseStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool firstUse = prefs.getBool('isThisUserFirstUse') ?? true;
+  // Future<void> loadUserFirstUseStatus() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool firstUse = prefs.getBool('isThisUserFirstUse') ?? true;
+  //   setState(() {
+  //     isThisUserFirstUse = firstUse;
+  //   });
+  // }
+  void handleFertilizerPrice(double price){
     setState(() {
-      isThisUserFirstUse = firstUse;
+      fertilizerPrice = price;
     });
-  }
-  void handleSelectedDateTime(DateTime date){
-    setState(() {
-      dateTime = date;
-    });
-    be.setDate(date);
+    backend.setPrice(fertilizerPrice);
 
   }
   void handleSelectedNumber(int number){
     setState(() {
       numberSelected = number;
-      print(number);
     });
-    be.setNumber(number);
+    backend.setQuantity(numberSelected);
   }
-  void handleOptionSelectedPlant(bool option) {
+  void handleNitrogen(int n){
     setState(() {
-      selectedOptionPlant = option;
+      nitrogen = n;
     });
-    be.setStatus(option);
+    backend.setNitrogen(nitrogen);
+    backend.isSecondSubCollectionEmpty();
+  }
+  void handlePhosphorus(int p){
+    setState(() {
+      phosphorus = p;
+    });
+    backend.setPhosphorus(phosphorus);
+  }
+  void handlePotassium(int k){
+    setState(() {
+      potassium = k;
+    });
+    backend.setPotassium(potassium);
+  }
 
-  }void handleOptionSelectedIOT(bool option) {
+  void handleFertilizerName(String name) {
     setState(() {
-      selectedOptionIOT = option;
+      // print(name);
+      fertilzerName = name;
     });
-    be.setIOT(option);
-  }void handleSelectedPlant(String name) {
-    setState(() {
-      cropName = name;
-    });
-    be.setCropName(name);
+    backend.setFertilizerName(fertilzerName);
   }
 
   List<Widget> buildTimeLine() {
@@ -90,35 +103,31 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
         isFirst: true,
         isLast: false,
         isPast: completedStages >= 1,
-        eventCard:  CustomDropDownMenu(onSelectedPlant: handleSelectedPlant,),
+        eventCard:  FertilizerName( fertilizerName: handleFertilizerName,),
       ),
       CustomTimeLine(
         isFirst: false,
         isLast: false,
         isPast: completedStages >= 2,
-        eventCard: SelectionStatusPlant(
-          onOptionSelected: handleOptionSelectedPlant,
-        ),
+        eventCard: FertilizerNutrients(nitrogen: handleNitrogen, phosphorus: handlePhosphorus, potassium: handlePotassium,),
       ),
       CustomTimeLine(
         isFirst: false,
         isLast: false,
         isPast: completedStages >= 3,
-        eventCard: PickDate(plantedOnot: selectedOptionPlant, dateSelected: handleSelectedDateTime,),
+        eventCard: FertilizerPrice(price: handleFertilizerPrice,),
       ),
       CustomTimeLine(
         isFirst: false,
         isLast: false,
         isPast: completedStages >= 4,
-        eventCard: HowMany(numberSelected: handleSelectedNumber,),
+        eventCard: Quantity(numberSelected: handleSelectedNumber,),
       ),
       CustomTimeLine(
         isFirst: false,
         isLast: true,
         isPast: completedStages >= 5,
-        eventCard: SelectionStatusIOT(
-          onOptionSelected: handleOptionSelectedIOT,
-        ),
+        eventCard:  OpenCamera(fertilizerName: fertilzerName,),
       ),
 
     ];
@@ -145,12 +154,12 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
       });
     }
     else {
-      be.addDataToSubcollection('$cropName$subcollectionNumber'); // Use the generated number
+      backend.addDataToSubCollection('$fertilzerName$subcollectionNumber'); // Use the generated number
       updateSubcollectionNumber(); // Update the number for the next use
       Navigator.push(
-        this.context,
+        context,
         MaterialPageRoute(
-          builder: (context) => BottomNavBarScreen(initialPage: 1),
+          builder: (context) => const BottomNavBarSeller(initialPage: 0),
         ),
       );
     }
@@ -163,7 +172,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Let's add your crop",
+          "Let's add your fertilizer",
           style: TextStyle(color: Colors.black),
           textAlign: TextAlign.center,
         ),
@@ -187,6 +196,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
           children: buildTimeLine(),
         ),
       ),
+      //Next button
       floatingActionButton: SizedBox(
         width: 120,
         height: 60,
@@ -201,6 +211,7 @@ class _PlantAddingFormState extends State<PlantAddingForm> {
             ),
             primary: Colors.black,
           ),
+
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [

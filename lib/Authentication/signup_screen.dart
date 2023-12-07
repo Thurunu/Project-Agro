@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:project_algora_2/widgets/constants.dart';
 import '../Back/auth_service.dart';
+import '../Body/bottom_nav_bar_screen.dart';
 import '../widgets/Buttons/my_button.dart';
 import '../widgets/TextFields/my_text_field.dart';
 import '../widgets/TextFields/password_text_field.dart';
@@ -100,20 +101,48 @@ class _SignupScreenState extends State<SignupScreen> {
       );
     }
   }
+  void errorMessage(String text) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.deepPurple,
+          title: Center(
+            child: Text(
+              text,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   //Function to handle Google sign in process
   Future<void> _handleGoogleSignIn(BuildContext context) async {
-    // Call AuthService.signInWithGoogle() to handle the Google Sign-In process
     UserCredential? userCredential = await AuthService.signInWithGoogle();
     if (userCredential != null) {
       // The user is signed in successfully
-      print("Signed in with Google: ${userCredential.user?.displayName}");
-
-      // Navigate to the ChoiceScreen
-      Navigator.pushReplacementNamed(context, '/Choice');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              "Signed in with Google: ${userCredential.user!.displayName}"),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+      // Navigate to the HomeScreen
+      // Navigator.pushReplacementNamed(context, '/bottom_nav_bar_screen');
+      Navigator.push(
+        this.context,
+        MaterialPageRoute(
+          builder: (context) => BottomNavBarScreen(
+            initialPage: 0,
+          ),
+        ),
+      );
     } else {
       // Sign-in was not successful or was cancelled
-      print("Sign-in with Google was not successful.");
+      errorMessage('Sign-in with Google was not successful.');
 
       // Show an error message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -127,7 +156,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
+
       body: SingleChildScrollView(
         child: SafeArea(
           child: Stack(
@@ -226,19 +258,17 @@ class _SignupScreenState extends State<SignupScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: OutlinedButton(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: ElevatedButton(
                                 onPressed: () => _handleGoogleSignIn(context),
-                                style: OutlinedButton.styleFrom(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white, // Background color
+                                  foregroundColor: Colors.black, // Text color
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
-                                        10.0), // Adjust the border radius
+                                        10.0), // Button border radius
                                   ),
-                                  primary: Colors
-                                      .white, // Set button background color
-                                  side: const BorderSide(
-                                      color: Colors.black), // Setborder color
+                                  elevation: 5, // Shadow elevation
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -253,16 +283,15 @@ class _SignupScreenState extends State<SignupScreen> {
                                     ),
                                     const SizedBox(
                                         width:
-                                            10), // Add spacing between the image and text
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 20),
-                                      child: Text(
+                                        10), // Add spacing between the image and text
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth / 100),
+                                      child: const Text(
                                         'Continue With Google',
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.black,
                                         ),
                                       ),
                                     ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project_algora_2/Body/location_detect.dart';
 import 'package:project_algora_2/Body/read_data/get_crop_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -161,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "Popular fertilizer shops in your area",
+                      "Popular shops in your area",
                       style: TextStyle(
                         fontSize: 24.0,
                       ),

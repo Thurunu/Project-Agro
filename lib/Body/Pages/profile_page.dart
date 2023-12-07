@@ -46,12 +46,21 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Padding(
           padding: EdgeInsets.symmetric(
             vertical: screenHeight * 0.025,
-            horizontal: screenWidth * 0.03,
+            horizontal: screenWidth * 0.05,
           ),
           child: Column(
             children: [
               Row(
-                children: [
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [Center(
+                  child: Text(
+                    username,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 32,
+                    ),
+                  ),
+                ),
                   Container(
                     height: 70,
                     width: 70,
@@ -70,18 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0, top: 10.0),
-                    child: Center(
-                      child: Text(
-                        username,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
+
                 ],
               ),
               SizedBox(height: screenHeight*0.05),

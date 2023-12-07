@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,17 @@ Future<void> main() async {
     androidProvider: AndroidProvider.debug,
   );
 
-
   final prefs = await SharedPreferences.getInstance();
+  // Ensure that plugin services are initialized so that `availableCameras()`
+  // can be called before `runApp()`
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Obtain a list of the available cameras on the device.
+  final cameras = await availableCameras();
+
+  // Get a specific camera from the list of available cameras.
+  final firstCamera = cameras.first;
+
   final showHome = prefs.getBool('showHome') ?? false;
   runApp(MyApp(showHome: showHome));
   runApp(

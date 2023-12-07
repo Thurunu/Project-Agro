@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../Back/back_end.dart';
-
 class SelectionStatusIOT extends StatefulWidget {
   final Function(bool) onOptionSelected;
   const SelectionStatusIOT({super.key, required this.onOptionSelected});
