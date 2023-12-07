@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.only(top: 75, bottom: 25),
                       child: Text(
                         'Welcome back',
-                        style: kHeadingTextStyle,
+                        style: kHeadingTextStyle.copyWith(fontSize: 30.0),
 
 
                       ),
@@ -234,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: MyText(
                                 text: 'Or Continue With',
-                                size: 12,
+                                size: 14,
                                 color: Colors.black12,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -282,9 +282,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: screenWidth / 100),
                                   child: const Text(
-                                    'Continue With Google',
+                                    'Google',
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 25,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

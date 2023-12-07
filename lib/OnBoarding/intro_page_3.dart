@@ -25,7 +25,7 @@ class IntroPage3 extends StatelessWidget {
           ),
         ),
         Padding(
-          padding:  EdgeInsets.only(top: screenHeight/3*1.1, right: 20, left: 20),
+          padding:  EdgeInsets.only(top: screenHeight/3, right: 20, left: 20),
           child: Center(
             child: const Text(
                 'We know the best crops suited for your area.',
