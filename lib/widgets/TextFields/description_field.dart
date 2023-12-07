@@ -119,30 +119,7 @@ class _DescriptionFieldState extends State<DescriptionField> {
             bottom: 1.5,
             top: 1.5,
             child:
-            // isLoading
-            //     ? Padding(
-            //         padding: const EdgeInsets.only(left: 25, bottom: 5),
-            //         child: SimpleCircularProgressBar(
-            //           size: 50,
-            //           // valueNotifier: valueNotifier,
-            //           progressStrokeWidth: 16,
-            //           backStrokeWidth: 0,
-            //           animationDuration: 2,
-            //           mergeMode: true,
-            //           onGetText: (value) {
-            //             return Text(
-            //               '${value.toInt()}',
-            //               // style: centerTextStyle,
-            //             );
-            //           },
-            //           progressColors: [
-            //             Colors.green.shade400,
-            //             Colors.green.shade800
-            //           ],
-            //           backColor: Colors.black.withOpacity(0.4),
-            //         ),
-            //       )
-            //     : // Show a loading indicator while the image is loading.
+
                 CachedNetworkImage(
                     imageUrl: imageUrl,
                     imageBuilder: (context, imageProvider) => Container(
