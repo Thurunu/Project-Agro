@@ -25,9 +25,11 @@ class MyTextField extends StatelessWidget{
       ),
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: TextStyle(color: Colors.green[300]),
         labelText: labelText,
+        labelStyle: TextStyle(color: Colors.green, fontSize: 20,fontWeight: FontWeight.w500),
         filled: true,
-        fillColor: Colors.grey[200],
+        fillColor: Colors.green[100],
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none, //this will hide default border
@@ -35,7 +37,7 @@ class MyTextField extends StatelessWidget{
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.lightBlueAccent),
+          borderSide: BorderSide(color: Color.fromRGBO(0, 128, 0, 0.7)),
         ),
       ),
     );

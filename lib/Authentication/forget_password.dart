@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_algora_2/Authentication/check_inbox.dart';
 import '../widgets/Buttons/my_button.dart';
@@ -83,26 +84,33 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+
         child: Container(
-          padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               //Forget Password Text
-              const MyText(
-                  text: 'Forget Password',
-                  size: 24,
-                  color: Color.fromRGBO(27, 94, 32, 0.9),
-                  fontWeight: FontWeight.bold),
+               const Row(
+                 children: [
+                   BackButton(),
+                   MyText(
+                      text: 'Forget Password',
+                      size: 24,
+                      color: Color.fromRGBO(27, 94, 32, 0.9),
+                      fontWeight: FontWeight.bold),
+                 ],
+               ),
               const Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: MyText(
                     text: 'Enter your email address to reset your password.',
-                    size: 16,
+                    size: 18,
                     color: Color.fromRGBO(27, 94, 32, 0.9),
                     fontWeight: FontWeight.normal),
               ),
-
+SizedBox(height: 50,),
               //Email Text Box
               MyTextField(
                 controller: resetMailController,
@@ -111,7 +119,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 obscureText: false,
               ),
               //Submit Text Button
-              MyButton(validateEmail, 'Rest Password'),
+              Padding(
+                padding: const EdgeInsets.only(top: 30), // Adjust the top padding to move the button down
+                child: MyButton(validateEmail, 'Reset Password'),
+              )
             ],
           ),
         ),

@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.only(top: 75, bottom: 25),
                       child: Text(
                         'Welcome back',
-                        style: kHeadingTextStyle,
+                        style: kHeadingTextStyle.copyWith(fontSize: 30.0),
 
 
                       ),
@@ -212,7 +212,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           },
-                          child: const Text("Forget Password ?"),
+                          child: const Text(
+                            "Forget Password ?",
+                            style: TextStyle(fontSize: 16,
+                              color: Color.fromRGBO(0, 128, 0, 1),
+                              letterSpacing: 1.5, // Adjust the letter spacing as needed
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -234,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             child: MyText(
                                 text: 'Or Continue With',
-                                size: 12,
+                                size: 14,
                                 color: Colors.black12,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -282,9 +288,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: screenWidth / 100),
                                   child: const Text(
-                                    'Continue With Google',
+                                    'Google',
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 25,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -313,8 +319,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: widget.onTap,
                             child: const Text(
                               '\tRegister now',
-                              style: TextStyle(
-                                color: Colors.blue,
+                              style: TextStyle(fontSize: 18,
+                                color: Color.fromRGBO(0, 128, 128, 0.6),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

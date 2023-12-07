@@ -165,11 +165,14 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Stack(
             children: [
               //Background image add & formatted
+              Align(
+                  alignment: Alignment.topCenter,
+                  child: BackgroundCircle(height: 150.0, width: 200.0)),
               const Padding(
-                padding: EdgeInsets.only(top: 150),
+                padding: EdgeInsets.only(top: 550),
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: BackgroundCircle(height: 300.0, width: 300.0),
+                  child: BackgroundCircle(height: 200.0, width: 200.0),
                 ),
               ),
               Column(
@@ -180,11 +183,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Column(
                       children: [
                          Padding(
-                          padding: const EdgeInsets.only(top: 75, bottom: 25),
+                          padding: const EdgeInsets.only(top: 45, bottom: 25),
 
                           //Headline
                           child: Text("Let's Create an Account",
-                          style: kHeadingTextStyle,
+                          style: TextStyle(color: Color.fromRGBO(0, 128, 0, 1), fontSize: 25, fontWeight: FontWeight.w500),
                           ),
                         ),
 
@@ -240,9 +243,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                 padding: EdgeInsets.symmetric(horizontal: 5),
                                 child: MyText(
                                     text: 'Or Continue With',
-                                    size: 12,
-                                    color: Colors.black12,
-                                    fontWeight: FontWeight.w600),
+                                    size: 16,
+                                    color: Colors.black26,
+                                    fontWeight: FontWeight.w900),
                               ),
                               Expanded(
                                 child: Divider(
@@ -288,7 +291,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: screenWidth / 100),
                                       child: const Text(
-                                        'Continue With Google',
+                                        'Google',
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -320,7 +323,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 child: const Text(
                                   '\tLogin',
                                   style: TextStyle(
-                                    color: Colors.blue,
+                                    color: Color.fromRGBO(0, 128, 128, 0.7), fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
