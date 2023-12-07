@@ -173,6 +173,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Text(
                         'Welcome back',
                         style: kHeadingTextStyle,
+
+
                       ),
                     ),
                     //Email text-field

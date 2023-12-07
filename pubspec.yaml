@@ -118,6 +118,10 @@ flutter:
      - assets/icons/Plant Icon.webp
      - assets/icons/Dressing.webp
      - assets/icons/Watering.webp
+     - assets/gif/Collection.gif
+     - assets/gif/People taking care of plants.gif
+     - assets/gif/planting tree.gif
+     - assets/gif/Reforestation.gif
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
