@@ -223,10 +223,15 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
 
                         //Signup button section
-                        SizedBox(
-                          height: 65,
-                          width: 360,
-                          child: MyButton(validateEmail, 'Sign up'),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: SizedBox(
+                              height: 90,
+                              width: 450,
+                              child: MyButton(validateEmail, 'Sign up'),
+                            ),
+                          ),
                         ),
                         //Divider
                         const Padding(
